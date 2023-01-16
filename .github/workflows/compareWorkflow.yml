@@ -1,0 +1,44 @@
+name: Run Transformation Script
+on:
+  # Allows you to run this workflow manually from the Actions tab.
+  workflow_dispatch:
+    inputs:
+      firstBranchName:
+        description: 'The name of the first branch to compare.'
+        default: 'main'
+        required: true
+      secondBranchName:
+        description: 'The name of the first branch to compare.'
+        default: 'main'
+        required: true
+
+jobs:
+  transform:
+    runs-on: ubuntu-latest
+
+    steps:
+        - uses: actions/checkout@v3.3.0
+          with:
+            ref: ${{ inputs.firstBranchName }}
+            path: firstBranch
+
+        - uses: actions/checkout@v3.3.0
+          with:
+            ref: ${{ inputs.secondBranchName }}
+            path: secondBranch
+          
+        - name: Setup Gradle
+          uses: gradle/gradle-build-action@v2
+       
+        - name: Make gradlew executable
+          run: chmod +x ./build/gradlew
+          
+        - name: Build with Gradle
+          env: # Or as an environment variable
+           SCRIPTING_LICENSE_KEY: ${{secrets.SCRIPTING_LICENSE_KEY}}
+          run: cd build; ./gradlew runComparison --info --stacktrace --build-cache
+       
+#        - name: Deploy
+#          uses: JamesIves/github-pages-deploy-action@v4.4.1
+#          with:
+#            folder: out # The folder the action should deploy.
