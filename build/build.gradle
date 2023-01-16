@@ -14,7 +14,7 @@ task initComparison() {
     doLast {
         project.exec {
             workingDir "${projectDir}/extracted/oxygen/scripts"
-            commandLine 'chmod', '700', 'transform.sh'
+            commandLine 'chmod', '700', 'compareDirs.sh'
         }
     }
 }
