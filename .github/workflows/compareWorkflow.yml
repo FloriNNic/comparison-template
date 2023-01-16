@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       firstBranchName:
-        description: 'The name of the first branch to compare.'
+        description: 'First branch name.'
         default: 'main'
         required: true
       secondBranchName:
-        description: 'The name of the first branch to compare.'
+        description: 'Second branch name.'
         default: 'main'
         required: true
 
