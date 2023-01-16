@@ -30,7 +30,7 @@ jobs:
           uses: gradle/gradle-build-action@v2
        
         - name: Make gradlew executable
-          run: chmod +x /build/gradlew
+          run: chmod +x ./build/gradlew
           
         - name: Build with Gradle
           env: # Or as an environment variable
