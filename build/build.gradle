@@ -22,8 +22,8 @@ task initScript() {
 task runComparison(type: Exec, dependsOn: [initScript]) {
     workingDir "${projectDir}/extracted/oxygen"
     commandLine "${projectDir}/extracted/oxygen/scripts/compareDirs.sh",
-            "${projectDir}/../firstBranch",
-            "${projectDir}/../secondBranch",
+            "${projectDir}/../" + firstBranch,
+            "${projectDir}/../" + secondBranch,
             "-ed", ".git",
             "-out", "html",
             "-outfile", "${projectDir}/../report/comparisonReport.html"
@@ -35,7 +35,7 @@ task runComparison(type: Exec, dependsOn: [initScript]) {
         if (execResult.getExitValue() != 0) {
             throw new TaskExecutionException(it, new Exception("Transformation failed, see task output for details."))
         } else {
-
+            // Do some replacements.
         }        
     }
 }

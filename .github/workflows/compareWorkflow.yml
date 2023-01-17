@@ -22,12 +22,12 @@ jobs:
         - uses: actions/checkout@v3.3.0
           with:
             ref: ${{ inputs.firstBranchName }}
-            path: firstBranch
+            path: ${{ inputs.firstBranchName }}
 
         - uses: actions/checkout@v3.3.0
           with:
             ref: ${{ inputs.secondBranchName }}
-            path: secondBranch
+            path: ${{ inputs.secondBranchName }}
           
         - name: Setup Gradle
           uses: gradle/gradle-build-action@v2
@@ -38,7 +38,7 @@ jobs:
         - name: Build with Gradle
           env: # Or as an environment variable
            SCRIPTING_LICENSE_KEY: ${{secrets.SCRIPTING_LICENSE_KEY}}
-          run: cd build; ./gradlew runComparison --info --stacktrace --build-cache
+          run: cd build; ./gradlew runComparison -PfirstBranch=${{ inputs.firstBranchName }} -PsecondBranch=${{ inputs.secondBranchName }}--info --stacktrace --build-cache
        
         - name: Deploy
           uses: JamesIves/github-pages-deploy-action@v4.4.1
