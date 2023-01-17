@@ -22,8 +22,8 @@ task initScript() {
 task runComparison(type: Exec, dependsOn: [initScript]) {
     workingDir "${projectDir}/extracted/oxygen"
     commandLine "${projectDir}/extracted/oxygen/scripts/compareDirs.sh",
-            "${projectDir}/../../firstBranch",
-            "${projectDir}/../../secondBranch",
+            "${projectDir}/../firstBranch",
+            "${projectDir}/../secondBranch",
             "-ed", ".git",
             "-out", "html",
             "-outfile", "${projectDir}/../report/comparisonReport.html"
