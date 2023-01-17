@@ -28,6 +28,8 @@ task runComparison(type: Exec, dependsOn: [initComparison]) {
             "-out", "html",
             "-outfile", "${projectDir}/../report/comparisonReport.html"
 
+    println "${projectDir}/../report/comparisonReport.html"
+
     doLast {
         if (execResult.getExitValue() != 0) {
             throw new TaskExecutionException(it, new Exception("Transformation failed, see task output for details."))
