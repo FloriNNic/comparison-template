@@ -18,8 +18,6 @@ jobs:
     steps:
         - name: Checkout main repo.
           uses: actions/checkout@v3.3.0
-          with:
-            path: main
 
         - uses: actions/checkout@v3.3.0
           with:
@@ -35,14 +33,14 @@ jobs:
           uses: gradle/gradle-build-action@v2
 
         - name: Make gradlew executable
-          run: chmod +x ./main/build/gradlew
+          run: chmod +x ./build/gradlew
           
         - name: Build with Gradle
           env: # Or as an environment variable
            SCRIPTING_LICENSE_KEY: ${{secrets.SCRIPTING_LICENSE_KEY}}
-          run: cd main/build; ./gradlew runComparison --info --stacktrace --build-cache
+          run: cd build; ./gradlew runComparison --info --stacktrace --build-cache
        
         - name: Deploy
           uses: JamesIves/github-pages-deploy-action@v4.4.1
           with:
-            folder: main/report # The folder the action should deploy.
+            folder: report # The folder the action should deploy.
