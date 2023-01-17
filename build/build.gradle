@@ -28,7 +28,7 @@ task runComparison(type: Exec, dependsOn: [initComparison]) {
             "-out", "html",
             "-outfile", "${projectDir}/../report/comparisonReport.html"
 
-    println "${projectDir}/../report/comparisonReport.html"
+    println "The report is: " + "${projectDir}/../report/comparisonReport.html"
 
     doLast {
         if (execResult.getExitValue() != 0) {
