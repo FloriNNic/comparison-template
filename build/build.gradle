@@ -35,7 +35,17 @@ task runComparison(type: Exec, dependsOn: [initScript]) {
         if (execResult.getExitValue() != 0) {
             throw new TaskExecutionException(it, new Exception("Transformation failed, see task output for details."))
         } else {
-            // Do some replacements.
+            // Replace file locations from GitHub VM with locations from repository.
+            ant.replace(
+                    file: '../report/comparisonReport.html',
+                    token: 'file:/home/runner/work/comparison-template/comparison-template',
+                    value:  repoMainBranchUrl
+            )
+            ant.replace(
+                    file: '../report/comparisonReport.html',
+                    token: '/home/runner/work/' + repoName,
+                    value: ''
+            )
         }        
     }
 }
