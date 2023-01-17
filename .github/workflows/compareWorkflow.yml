@@ -38,7 +38,7 @@ jobs:
         - name: Build with Gradle
           env: # Or as an environment variable
            SCRIPTING_LICENSE_KEY: ${{secrets.SCRIPTING_LICENSE_KEY}}
-          run: cd build; ./gradlew runComparison -PfirstBranch=${{ inputs.firstBranchName }} -PsecondBranch=${{ inputs.secondBranchName }}--info --stacktrace --build-cache
+          run: cd build; ./gradlew runComparison -PfirstBranch=${{ inputs.firstBranchName }} -PsecondBranch=${{ inputs.secondBranchName }} --info --stacktrace --build-cache
        
         - name: Deploy
           uses: JamesIves/github-pages-deploy-action@v4.4.1
