@@ -19,10 +19,13 @@ jobs:
         - name: Install git.
           run: sudo apt install git; git --version
 
-        - name: Checkout main repo.
-          uses: actions/checkout@v3.3.0
-          with:
-            fetch-depth: 2
+        - name: Clone repo.
+          run: git clone https://github.com/FloriNNic/comparison-template
+
+#        - name: Checkout main repo.
+#          uses: actions/checkout@v3.3.0
+#          with:
+#            fetch-depth: 2
         - run: git checkout HEAD^
 
         - uses: actions/checkout@v3.3.0
