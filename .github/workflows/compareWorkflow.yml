@@ -28,6 +28,16 @@ jobs:
           with:
             ref: ${{ inputs.secondBranchName }}
             path: ${{ inputs.secondBranchName }}
+
+        - name: Find the most recent common ancestor.
+          id: find_common_ancestor
+          run: git merge-base ${{ inputs.firstBranchName }} ${{ inputs.secondBranchName }}
+
+        - name: Checkout the common ancestor.
+          uses: actions/checkout@v3.3.0
+          with:
+            ref: ${{ steps.random-number-generator.outputs.random-id }}
+            path: base
           
         - name: Setup Gradle
           uses: gradle/gradle-build-action@v2
