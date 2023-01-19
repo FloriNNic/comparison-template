@@ -16,17 +16,8 @@ jobs:
   compare:
     runs-on: ubuntu-latest
     steps:
-        - name: Install git.
-          run: sudo apt install git; git --version
-
-        - name: Clone repo.
-          run: git clone https://github.com/FloriNNic/comparison-template
-
-#        - name: Checkout main repo.
-#          uses: actions/checkout@v3.3.0
-#          with:
-#            fetch-depth: 2
-#        - run: git checkout HEAD^
+        - name: Checkout main repo.
+          uses: actions/checkout@v3.3.0
 
         - uses: actions/checkout@v3.3.0
           with:
@@ -40,12 +31,12 @@ jobs:
 
         - name: Find the most recent common ancestor.
           id: find_common_ancestor
-          run: cd comparison-template; ls; git merge-base ${{ inputs.firstBranchName }} ${{ inputs.secondBranchName }}
+          run: git merge-base https://github.com/FloriNNic/comparison-template/tree/main https://github.com/FloriNNic/comparison-template/tree/main2
 
         - name: Checkout the common ancestor.
           uses: actions/checkout@v3.3.0
           with:
-            ref: ${{ steps.random-number-generator.outputs.random-id }}
+            ref: ${{ steps.find_common_ancestor.outputs.* }}
             path: base
           
         - name: Setup Gradle
