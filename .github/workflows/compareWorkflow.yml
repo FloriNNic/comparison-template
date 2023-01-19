@@ -34,7 +34,7 @@ jobs:
             path: ${{ inputs.secondBranchName }}
 
         - name: Find the common ancestor of these 2 branches.
-          run: echo "common_ancestor=$(git merge-base origin/${{ inputs.firstBranchName }} origin/${{ inputs.secondBranchName }})" >> $GITHUB_OUTPUT
+          run: echo "common_ancestor=$(git merge-base ${{ inputs.firstBranchName }} ${{ inputs.secondBranchName }})" >> $GITHUB_OUTPUT
           shell: bash
           id: find_common_ancestor
 
