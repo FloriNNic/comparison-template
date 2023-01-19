@@ -24,6 +24,7 @@ task runComparison(type: Exec, dependsOn: [initScript]) {
     commandLine "${projectDir}/extracted/oxygen/scripts/compareDirs.sh",
             "${projectDir}/../" + firstBranch,
             "${projectDir}/../" + secondBranch,
+            new File("${projectDir}/../base").exists() ? "${projectDir}/../base" : "",
             "-ed", ".git",
             "-out", "html",
             "-outfile", "${projectDir}/../report/comparisonReport.html"

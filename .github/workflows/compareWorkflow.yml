@@ -24,7 +24,7 @@ jobs:
         - run: |
               git config user.name github-actions
               git config user.email github-actions@github.com
-              echo "common_ancestor=$(git merge-base main origin/main2)" >> $GITHUB_OUTPUT
+              echo "common_ancestor=$(git merge-base ${{ inputs.firstBranchName }} ${{ inputs.firstBranchName }})" >> $GITHUB_OUTPUT
           shell: bash
           id: find_common_ancestor
 
