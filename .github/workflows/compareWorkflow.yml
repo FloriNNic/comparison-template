@@ -40,7 +40,7 @@ jobs:
 
         - name: Find the most recent common ancestor.
           id: find_common_ancestor
-          run: cd main; ls; git merge-base ${{ inputs.firstBranchName }} ${{ inputs.secondBranchName }}
+          run: ls; git merge-base ${{ inputs.firstBranchName }} ${{ inputs.secondBranchName }}
 
         - name: Checkout the common ancestor.
           uses: actions/checkout@v3.3.0
