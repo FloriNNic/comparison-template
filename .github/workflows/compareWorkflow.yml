@@ -24,7 +24,7 @@ jobs:
         - run: |
               git config user.name github-actions
               git config user.email github-actions@github.com
-              git merge-base main main2
+              git merge-base main origin/main2
           id: find_common_ancestor
 
         - uses: actions/checkout@v3.3.0
