@@ -19,22 +19,24 @@ jobs:
         - name: Checkout main repo.
           uses: actions/checkout@v3.3.0
 
-        - run: |
-              echo "common_ancestor=$(git merge-base ${{ inputs.firstBranchName }} ${{ inputs.firstBranchName }})" >> $GITHUB_OUTPUT
-          shell: bash
-          id: find_common_ancestor
-
-        - uses: actions/checkout@v3.3.0
+        - name: Checkout first branch.
+          uses: actions/checkout@v3.3.0
           with:
             ref: ${{ inputs.firstBranchName }}
             path: ${{ inputs.firstBranchName }}
 
-        - uses: actions/checkout@v3.3.0
+        - name: Checkout second branch.
+          uses: actions/checkout@v3.3.0
           with:
             ref: ${{ inputs.secondBranchName }}
             path: ${{ inputs.secondBranchName }}
 
-        - name: Checkout the common ancestor.
+        - name: Find the common ancestor of these 2 branches.
+          run: echo "common_ancestor=$(git merge-base ${{ inputs.firstBranchName }} ${{ inputs.firstBranchName }})" >> $GITHUB_OUTPUT
+          shell: bash
+          id: find_common_ancestor
+
+        - name: Checkout the common ancestor in the 'base' directory.
           uses: actions/checkout@v3.3.0
           with:
             ref: ${{ steps.find_common_ancestor.outputs.common_ancestor }}
