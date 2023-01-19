@@ -29,6 +29,7 @@
       tr.quantOutgoing {color:#333}
       tr.quantIncoming {color:#3591da}
       tr.quantModifications {color:#870000}
+      tr.quantConflicts {color:#ff1919}
 
       td.filePath {word-break:break-all}
       td.size {width:70px}
@@ -70,15 +71,22 @@
         color:#870000
       }
       td.modifiedModifications {color:#870000}
+      td.sizeConflicts {
+        text-align:right;
+        color:#ff1919
+      }
+      td.modifiedConflicts {color:#ff1919}
 
       span.outgoing {color:#333}
       span.incoming {color:#3591da}
       span.modifications {color:#870000}
+      span.conflicts {color:#ff1919}
 
       a {text-decoration:none}
       a.outgoing {color:#333}
       a.incoming {color:#3591da}
       a.modifications {color:#870000}
+      a.conflicts {color:#ff1919}
 
       .dirPath {
         background-color:#fafaef;
@@ -122,10 +130,15 @@
         background-color:rgba(135,0,0,.65);
         color:rgba(135,0,0,0)
       }
+      .conflictsLbl {
+        background-color:#ff1919;
+        color:#ff1919
+      }
 
       #outgoing.tableFilter:checked ~ table.details tr.detailsOutgoing,
       #incoming.tableFilter:checked ~ table.details tr.detailsIncoming,
       #modifications.tableFilter:checked ~ table.details tr.detailsModifications,
+      #conflicts.tableFilter:checked ~ table.details tr.detailsConflicts,
       #all.tableFilter:checked ~ table.details tr {
         display:table-row
       }
@@ -133,20 +146,20 @@
   </head>
 
   <body>
-    <label style="display:block; margin-bottom:10px"><b>Differences:&nbsp;8</b></label>
+    <label style="display:block; margin-bottom:10px"><b>Differences:&nbsp;7</b></label>
 
     <label style="margin-right:20px"><b><br/>Comparison details:</b></label>
     <input type="radio" class="tableFilter" name="filter" id="all" checked/>
-    <label class="allLbl filterLbl" for="all" title="all differences">&nbsp;&#10003;&nbsp;</label>
-    <label class="filterLblText" for="all">all differences (8)</label>
-    <input type="radio" class="tableFilter" name="filter" id="outgoing"/>
-    <label class="outgoingLbl filterLbl" for="outgoing" title="only found in 1st folder">&nbsp;&#10003;&nbsp;</label>
-    <label class="filterLblText" for="outgoing">only found in 1st folder (3)</label>
-    <input type="radio" class="tableFilter" name="filter" id="modifications"/>
-    <label class="modificationsLbl filterLbl" for="modifications" title="modified">&nbsp;&#10003;&nbsp;</label>
-    <label class="filterLblText" for="modifications">modified (5)</label>
+    <label class="allLbl filterLbl" for="all" title="all differences" style="display:none">&nbsp;&#10003;&nbsp;</label>
+    <span>7 of type 'incoming'</span>
 
     <table style="margin-top:.6em">
+      <tr class="dirPath" style="border-bottom:hidden">
+        <td class="filePath"><a class="outgoing" href="file:/comparison-template/base/" target="_blank">Base folder: /comparison-template/base/</a></td>
+      </tr>
+    </table>
+
+    <table>
       <tr class="dirPath" style="border-bottom:hidden">
         <td class="filePath"><a class="outgoing" href="https://github.com/FloriNNic/comparison-template/blob/main/" target="_blank">Folder 1: /comparison-template/main/</a></td>
         <td class="detailsStatus" style="border-left:hidden"></td>
@@ -156,7 +169,7 @@
     </table>
 
     <table class="details">
-      <tr class="dirPath detailsOutgoing detailsIncoming detailsModifications" style="font-size:1.1em; color:#333">
+      <tr class="dirPath detailsOutgoing detailsIncoming detailsModifications detailsConflicts" style="font-size:1.1em; color:#333">
         <td class="filePath">File name</td>
         <td class="size">Size</td>
         <td class="modifDate">Modified</td>
@@ -166,82 +179,72 @@
         <td class="size">Size</td>
         <td class="modifDate">Modified</td>
       </tr>
-      <tr class="detailsModifications">
-        <td class="filePath"><a class="modifications" href="https://github.com/FloriNNic/comparison-template/blob/main/.github/workflows/compareWorkflow.yml" target="_blank">.github/workflows/compareWorkflow.yml</a></td>
-        <td class="sizeModifications">1992</td>
-        <td class="modifiedModifications">2023-01-19  14:42:03</td>
-        <td class="detailsStatus" title="modified"><span class="modifications">&nbsp;&#8727;&nbsp;</span></td>
-        <td class="detailsStatus" title="modified"><span class="modifications">&nbsp;&#8727;&nbsp;</span></td>
-        <td class="filePath"><a class="modifications" href="https://github.com/FloriNNic/comparison-template/blob/main2/.github/workflows/compareWorkflow.yml" target="_blank">.github/workflows/compareWorkflow.yml</a></td>
-        <td class="sizeModifications">1325</td>
-        <td class="modifiedModifications">2023-01-19  14:42:04</td>
+      <tr class="detailsIncoming">
+        <td class="filePath"><a class="incoming" href="https://github.com/FloriNNic/comparison-template/blob/main/.github/workflows/compareWorkflow.yml" target="_blank">.github/workflows/compareWorkflow.yml</a></td>
+        <td class="sizeIncoming">2034</td>
+        <td class="modifiedIncoming">2023-01-19  14:47:59</td>
+        <td class="detailsStatus" title="modified in folder 2"><span class="incoming">&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+        <td class="detailsStatus" title="modified in folder 2"><span class="incoming">&nbsp;&#8727;&nbsp;</span></td>
+        <td class="filePath"><a class="incoming" href="https://github.com/FloriNNic/comparison-template/blob/main2/.github/workflows/compareWorkflow.yml" target="_blank">.github/workflows/compareWorkflow.yml</a></td>
+        <td class="sizeIncoming">1325</td>
+        <td class="modifiedIncoming">2023-01-19  14:48:00</td>
       </tr>
-      <tr class="detailsModifications">
-        <td class="filePath"><a class="modifications" href="https://github.com/FloriNNic/comparison-template/blob/main/build/build.gradle" target="_blank">build/build.gradle</a></td>
-        <td class="sizeModifications">2248</td>
-        <td class="modifiedModifications">2023-01-19  14:42:03</td>
-        <td class="detailsStatus" title="modified"><span class="modifications">&nbsp;&#8727;&nbsp;</span></td>
-        <td class="detailsStatus" title="modified"><span class="modifications">&nbsp;&#8727;&nbsp;</span></td>
-        <td class="filePath"><a class="modifications" href="https://github.com/FloriNNic/comparison-template/blob/main2/build/build.gradle" target="_blank">build/build.gradle</a></td>
-        <td class="sizeModifications">1445</td>
-        <td class="modifiedModifications">2023-01-19  14:42:04</td>
+      <tr class="detailsIncoming">
+        <td class="filePath"><a class="incoming" href="https://github.com/FloriNNic/comparison-template/blob/main/build/build.gradle" target="_blank">build/build.gradle</a></td>
+        <td class="sizeIncoming">2335</td>
+        <td class="modifiedIncoming">2023-01-19  14:47:59</td>
+        <td class="detailsStatus" title="modified in folder 2"><span class="incoming">&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+        <td class="detailsStatus" title="modified in folder 2"><span class="incoming">&nbsp;&#8727;&nbsp;</span></td>
+        <td class="filePath"><a class="incoming" href="https://github.com/FloriNNic/comparison-template/blob/main2/build/build.gradle" target="_blank">build/build.gradle</a></td>
+        <td class="sizeIncoming">1445</td>
+        <td class="modifiedIncoming">2023-01-19  14:48:00</td>
       </tr>
-      <tr class="detailsModifications">
-        <td class="filePath"><a class="modifications" href="https://github.com/FloriNNic/comparison-template/blob/main/build/gradle.properties" target="_blank">build/gradle.properties</a></td>
-        <td class="sizeModifications">183</td>
-        <td class="modifiedModifications">2023-01-19  14:42:03</td>
-        <td class="detailsStatus" title="modified"><span class="modifications">&nbsp;&#8727;&nbsp;</span></td>
-        <td class="detailsStatus" title="modified"><span class="modifications">&nbsp;&#8727;&nbsp;</span></td>
-        <td class="filePath"><a class="modifications" href="https://github.com/FloriNNic/comparison-template/blob/main2/build/gradle.properties" target="_blank">build/gradle.properties</a></td>
-        <td class="sizeModifications">170</td>
-        <td class="modifiedModifications">2023-01-19  14:42:04</td>
+      <tr class="detailsIncoming">
+        <td class="filePath"><a class="incoming" href="https://github.com/FloriNNic/comparison-template/blob/main/build/gradle.properties" target="_blank">build/gradle.properties</a></td>
+        <td class="sizeIncoming">183</td>
+        <td class="modifiedIncoming">2023-01-19  14:47:59</td>
+        <td class="detailsStatus" title="modified in folder 2"><span class="incoming">&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+        <td class="detailsStatus" title="modified in folder 2"><span class="incoming">&nbsp;&#8727;&nbsp;</span></td>
+        <td class="filePath"><a class="incoming" href="https://github.com/FloriNNic/comparison-template/blob/main2/build/gradle.properties" target="_blank">build/gradle.properties</a></td>
+        <td class="sizeIncoming">170</td>
+        <td class="modifiedIncoming">2023-01-19  14:48:00</td>
       </tr>
-      <tr class="detailsModifications">
-        <td class="filePath"><a class="modifications" href="https://github.com/FloriNNic/comparison-template/blob/main/build/settings.gradle" target="_blank">build/settings.gradle</a></td>
-        <td class="sizeModifications">53</td>
-        <td class="modifiedModifications">2023-01-19  14:42:03</td>
-        <td class="detailsStatus" title="modified"><span class="modifications">&nbsp;&#8727;&nbsp;</span></td>
-        <td class="detailsStatus" title="modified"><span class="modifications">&nbsp;&#8727;&nbsp;</span></td>
-        <td class="filePath"><a class="modifications" href="https://github.com/FloriNNic/comparison-template/blob/main2/build/settings.gradle" target="_blank">build/settings.gradle</a></td>
-        <td class="sizeModifications">57</td>
-        <td class="modifiedModifications">2023-01-19  14:42:04</td>
+      <tr class="detailsIncoming">
+        <td class="filePath"><a class="incoming" href="https://github.com/FloriNNic/comparison-template/blob/main/build/settings.gradle" target="_blank">build/settings.gradle</a></td>
+        <td class="sizeIncoming">53</td>
+        <td class="modifiedIncoming">2023-01-19  14:47:59</td>
+        <td class="detailsStatus" title="modified in folder 2"><span class="incoming">&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+        <td class="detailsStatus" title="modified in folder 2"><span class="incoming">&nbsp;&#8727;&nbsp;</span></td>
+        <td class="filePath"><a class="incoming" href="https://github.com/FloriNNic/comparison-template/blob/main2/build/settings.gradle" target="_blank">build/settings.gradle</a></td>
+        <td class="sizeIncoming">57</td>
+        <td class="modifiedIncoming">2023-01-19  14:48:00</td>
       </tr>
-      <tr class="detailsOutgoing">
-        <td class="filePath"><a class="outgoing" href="https://github.com/FloriNNic/comparison-template/blob/main/report/" target="_blank">report/</a></td>
-        <td class="sizeOutgoing"></td>
-        <td class="modifiedOutgoing">2023-01-19  14:42:03</td>
-        <td class="detailsStatus" title="only found in 1st folder"><span class="outgoing">&nbsp;+&nbsp;</span></td>
-        <td class="detailsStatus" title="only found in 1st folder"><span class="outgoing">&nbsp;&#8722;&nbsp;</span></td>
+      <tr class="detailsIncoming">
+        <td class="filePath"><a class="incoming" href="https://github.com/FloriNNic/comparison-template/blob/main/report/comparisonReport.html" target="_blank">report/comparisonReport.html</a></td>
+        <td class="sizeIncoming">0</td>
+        <td class="modifiedIncoming">2023-01-19  14:47:59</td>
+        <td class="detailsStatus" title="deleted from folder 2"><span class="incoming">&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+        <td class="detailsStatus" title="deleted from folder 2"><span class="incoming">&nbsp;&#8722;&nbsp;</span></td>
         <td></td>
         <td></td>
         <td></td>
       </tr>
-      <tr class="detailsOutgoing">
-        <td class="filePath"><a class="outgoing" href="https://github.com/FloriNNic/comparison-template/blob/main/report/comparisonReport.html" target="_blank">report/comparisonReport.html</a></td>
-        <td class="sizeOutgoing">0</td>
-        <td class="modifiedOutgoing">2023-01-19  14:42:03</td>
-        <td class="detailsStatus" title="only found in 1st folder"><span class="outgoing">&nbsp;+&nbsp;</span></td>
-        <td class="detailsStatus" title="only found in 1st folder"><span class="outgoing">&nbsp;&#8722;&nbsp;</span></td>
-        <td></td>
-        <td></td>
-        <td></td>
+      <tr class="detailsIncoming">
+        <td class="filePath"><a class="incoming" href="https://github.com/FloriNNic/comparison-template/blob/main/README.md" target="_blank">README.md</a></td>
+        <td class="sizeIncoming">37</td>
+        <td class="modifiedIncoming">2023-01-19  14:47:59</td>
+        <td class="detailsStatus" title="modified in folder 2"><span class="incoming">&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+        <td class="detailsStatus" title="modified in folder 2"><span class="incoming">&nbsp;&#8727;&nbsp;</span></td>
+        <td class="filePath"><a class="incoming" href="https://github.com/FloriNNic/comparison-template/blob/main2/README.md" target="_blank">README.md</a></td>
+        <td class="sizeIncoming">60</td>
+        <td class="modifiedIncoming">2023-01-19  14:48:00</td>
       </tr>
-      <tr class="detailsModifications">
-        <td class="filePath"><a class="modifications" href="https://github.com/FloriNNic/comparison-template/blob/main/README.md" target="_blank">README.md</a></td>
-        <td class="sizeModifications">37</td>
-        <td class="modifiedModifications">2023-01-19  14:42:03</td>
-        <td class="detailsStatus" title="modified"><span class="modifications">&nbsp;&#8727;&nbsp;</span></td>
-        <td class="detailsStatus" title="modified"><span class="modifications">&nbsp;&#8727;&nbsp;</span></td>
-        <td class="filePath"><a class="modifications" href="https://github.com/FloriNNic/comparison-template/blob/main2/README.md" target="_blank">README.md</a></td>
-        <td class="sizeModifications">60</td>
-        <td class="modifiedModifications">2023-01-19  14:42:04</td>
-      </tr>
-      <tr class="detailsOutgoing">
-        <td class="filePath"><a class="outgoing" href="https://github.com/FloriNNic/comparison-template/blob/main/generated.txt" target="_blank">generated.txt</a></td>
-        <td class="sizeOutgoing">29</td>
-        <td class="modifiedOutgoing">2023-01-19  14:42:03</td>
-        <td class="detailsStatus" title="only found in 1st folder"><span class="outgoing">&nbsp;+&nbsp;</span></td>
-        <td class="detailsStatus" title="only found in 1st folder"><span class="outgoing">&nbsp;&#8722;&nbsp;</span></td>
+      <tr class="detailsIncoming">
+        <td class="filePath"><a class="incoming" href="https://github.com/FloriNNic/comparison-template/blob/main/generated.txt" target="_blank">generated.txt</a></td>
+        <td class="sizeIncoming">29</td>
+        <td class="modifiedIncoming">2023-01-19  14:47:59</td>
+        <td class="detailsStatus" title="deleted from folder 2"><span class="incoming">&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+        <td class="detailsStatus" title="deleted from folder 2"><span class="incoming">&nbsp;&#8722;&nbsp;</span></td>
         <td></td>
         <td></td>
         <td></td>
