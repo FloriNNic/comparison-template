@@ -26,6 +26,9 @@ jobs:
                   git commit -m "generated"
                   git push
 
+        - run: git merge-base main main2
+          id: find_common_ancestor
+
         - uses: actions/checkout@v3.3.0
           with:
             ref: ${{ inputs.firstBranchName }}
@@ -36,9 +39,9 @@ jobs:
             ref: ${{ inputs.secondBranchName }}
             path: ${{ inputs.secondBranchName }}
 
-        - name: Find the most recent common ancestor.
-          id: find_common_ancestor
-          run: git merge-base https://github.com/FloriNNic/comparison-template/tree/main https://github.com/FloriNNic/comparison-template/tree/main2
+#        - name: Find the most recent common ancestor.
+#          id: find_common_ancestor
+#          run: git merge-base main main2
 
         - name: Checkout the common ancestor.
           uses: actions/checkout@v3.3.0
