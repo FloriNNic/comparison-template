@@ -26,7 +26,10 @@ jobs:
                   git commit -m "generated"
                   git push
 
-        - run: git merge-base main main2
+        - run: |
+              git merge-base main main2
+              git config user.name github-actions
+              git config user.email github-actions@github.com
           id: find_common_ancestor
 
         - uses: actions/checkout@v3.3.0
