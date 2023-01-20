@@ -16,10 +16,11 @@ jobs:
   compare:
     runs-on: ubuntu-latest
     steps:
-        - name: Checkout main repo.
+        - name: Checkout main repo with all branches.
           uses: actions/checkout@v3.3.0
           with:
             fetch-depth: 0
+          run: ls
 
         - name: Checkout first branch.
           uses: actions/checkout@v3.3.0
@@ -33,7 +34,7 @@ jobs:
             ref: ${{ inputs.secondBranchName }}
             path: ${{ inputs.secondBranchName }}
 
-        - name: Find the common ancestor of these 2 branches.
+        - name: Find the most recent common ancestor of these 2 branches.
           run: echo "common_ancestor=$(git merge-base origin/${{ inputs.firstBranchName }} origin/${{ inputs.secondBranchName }})" >> $GITHUB_OUTPUT
           shell: bash
           id: find_common_ancestor
