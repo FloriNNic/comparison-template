@@ -20,7 +20,7 @@ jobs:
           uses: actions/checkout@v3.3.0
           with:
             fetch-depth: 0
-        - run: ls
+        - run: cd ..; ls
 
         - name: Checkout first branch.
           uses: actions/checkout@v3.3.0
