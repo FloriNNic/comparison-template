@@ -16,11 +16,10 @@ jobs:
   compare:
     runs-on: ubuntu-latest
     steps:
-        - name: Checkout main repo with all branches.
+        - name: Checkout main repo with entire history.
           uses: actions/checkout@v3.3.0
           with:
             fetch-depth: 0
-        - run: cd ..; ls
 
         - name: Checkout first branch.
           uses: actions/checkout@v3.3.0
@@ -52,7 +51,7 @@ jobs:
           run: chmod +x ./build/gradlew
           
         - name: Build with Gradle
-          env: # Or as an environment variable
+          env:
            SCRIPTING_LICENSE_KEY: ${{secrets.SCRIPTING_LICENSE_KEY}}
           run: |
             cd build; ./gradlew runComparison -PfirstBranch=${{ inputs.firstBranchName }} -PsecondBranch=${{ inputs.secondBranchName }} --info --stacktrace --build-cache
