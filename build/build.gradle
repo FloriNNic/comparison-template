@@ -20,20 +20,18 @@ task initScript() {
 }
 
 task runComparison(type: Exec, dependsOn: [initScript]) {
-    // Compute the validation directory depending on where the script is started from.
+    // Compute the branch directories depending on where the script is started from.
     String firstDir = "${projectDir}" + (innerBuild.toBoolean() ? "/../" : "/../../") + firstBranch
     String secondDir = "${projectDir}" + (innerBuild.toBoolean() ? "/../" : "/../../") + secondBranch
     String baseDir = "${projectDir}" + (innerBuild.toBoolean() ? "/../" : "/../../") + "base"
 
     workingDir "${projectDir}/extracted/oxygen"
     commandLine "${projectDir}/extracted/oxygen/scripts/compareDirs.sh",
-            firstDir, secondDir, baseDir,
+            firstDir, secondDir,
+            new File(baseDir).exists() ? baseDir : "",
             "-ed", ".git", // ignore .git directory
             "-out", "html",
             "-outfile", "${projectDir}/../report/comparisonReport.html"
-
-    println "The report is: " + "${projectDir}/../report/comparisonReport.html"
-    println new File("${projectDir}/../report/comparisonReport.html").text
 
     doLast {
         if (execResult.getExitValue() != 0) {
