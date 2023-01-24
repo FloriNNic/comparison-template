@@ -28,7 +28,7 @@ task runComparison(type: Exec, dependsOn: [initScript]) {
     workingDir "${projectDir}/extracted/oxygen"
     commandLine "${projectDir}/extracted/oxygen/scripts/compareDirs.sh",
             firstDir, secondDir,
-            new File(baseDir).exists() ? baseDir : "",
+            new File(baseDir).exists() ? baseDir : null,
             "-ed", ".git", // ignore .git directory
             "-out", "html",
             "-outfile", "${projectDir}/../report/comparisonReport.html"
