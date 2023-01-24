@@ -3,11 +3,11 @@ on:
   # Allows you to run this workflow manually from the Actions tab.
   workflow_dispatch:
     inputs:
-      firstBranchName:
+      firstBranch:
         description: 'First branch name.'
         default: 'main'
         required: true
-      secondBranchName:
+      secondBranch:
         description: 'Second branch name.'
         default: 'main'
         required: true
@@ -24,17 +24,17 @@ jobs:
         - name: Checkout first branch.
           uses: actions/checkout@v3.3.0
           with:
-            ref: ${{ inputs.firstBranchName }}
-            path: ${{ inputs.firstBranchName }}
+            ref: ${{ inputs.firstBranch }}
+            path: ${{ inputs.firstBranch }}
 
         - name: Checkout second branch.
           uses: actions/checkout@v3.3.0
           with:
-            ref: ${{ inputs.secondBranchName }}
-            path: ${{ inputs.secondBranchName }}
+            ref: ${{ inputs.secondBranch }}
+            path: ${{ inputs.secondBranch }}
 
         - name: Find the most recent common ancestor of these 2 branches.
-          run: echo "common_ancestor=$(git merge-base origin/${{ inputs.firstBranchName }} origin/${{ inputs.secondBranchName }})" >> $GITHUB_OUTPUT
+          run: echo "common_ancestor=$(git merge-base origin/${{ inputs.firstBranch }} origin/${{ inputs.secondBranch }})" >> $GITHUB_OUTPUT
           shell: bash
           id: find_common_ancestor
 
@@ -54,9 +54,9 @@ jobs:
           env:
            SCRIPTING_LICENSE_KEY: ${{secrets.SCRIPTING_LICENSE_KEY}}
           run: |
-            cd build; ./gradlew runComparison -PfirstBranch=${{ inputs.firstBranchName }} -PsecondBranch=${{ inputs.secondBranchName }} --info --stacktrace --build-cache
+            cd build; ./gradlew runComparison -PfirstBranch=${{ inputs.firstBranch }} -PsecondBranch=${{ inputs.secondBranch }} -PinnerBuild=true --info --stacktrace --build-cache
        
         - name: Deploy
           uses: JamesIves/github-pages-deploy-action@v4.4.1
           with:
-            folder: report # The folder the action should deploy.
+            folder: report
