@@ -10,7 +10,6 @@ task initScript() {
             } else {
                 new File("${projectDir}/extracted/oxygen/scriptinglicensekey.txt").write(key.replaceAll("  ", "\n"))
             }
-            println "The 1 license key is: " + key
         }
     }
     doLast {
@@ -27,16 +26,15 @@ task runComparison(type: Exec, dependsOn: [initScript]) {
     String secondDir = "${projectDir}" + (innerBuild.toBoolean() ? "/../" : "/../../") + secondBranch
     String baseDir = "${projectDir}" + (innerBuild.toBoolean() ? "/../" : "/../../") + "base"
 
-    println "The license key is: " + System.getenv('SCRIPTING_LICENSE_KEY')
-    workingDir "${projectDir}/extracted/oxygen/scripts"
+    workingDir "${projectDir}/extracted/oxygen"
     if (new File(baseDir).exists()) {
-        commandLine "compareDirs.sh",
+        commandLine "scripts/compareDirs.sh",
                 firstDir, secondDir, baseDir,
                 "-ed", ".git", // ignore .git directory
                 "-out", "html",
                 "-outfile", "${projectDir}/../report/comparisonReport.html"
     } else {
-        commandLine "compareDirs.sh",
+        commandLine "scripts/compareDirs.sh",
                 firstDir, secondDir,
                 "-ed", ".git", // ignore .git directory
                 "-out", "html",
