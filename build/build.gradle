@@ -10,6 +10,7 @@ task initScript() {
             } else {
                 new File("${projectDir}/extracted/oxygen/scriptinglicensekey.txt").write(key.replaceAll("  ", "\n"))
             }
+            println "The 1 license key is: " + key
         }
     }
     doLast {
@@ -29,7 +30,7 @@ task runComparison(type: Exec, dependsOn: [initScript]) {
     println "The license key is: " + System.getenv('SCRIPTING_LICENSE_KEY')
     workingDir "${projectDir}/extracted/oxygen/scripts"
     if (new File(baseDir).exists()) {
-        commandLine " compareDirs.sh",
+        commandLine "compareDirs.sh",
                 firstDir, secondDir, baseDir,
                 "-ed", ".git", // ignore .git directory
                 "-out", "html",
