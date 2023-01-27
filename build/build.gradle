@@ -10,6 +10,7 @@ task initScript() {
             } else {
                 new File("${projectDir}/extracted/oxygen/scriptinglicensekey.txt").write(key.replaceAll("  ", "\n"))
             }
+            println "license1: " + new File("${projectDir}/extracted/oxygen/scriptinglicensekey.txt").text
         }
     }
     doLast {
@@ -26,6 +27,7 @@ task runComparison(type: Exec, dependsOn: [initScript]) {
     String secondDir = "${projectDir}" + (innerBuild.toBoolean() ? "/../" : "/../../") + secondBranch
     String baseDir = "${projectDir}" + (innerBuild.toBoolean() ? "/../" : "/../../") + "base"
 
+    println "license2: " + new File("${projectDir}/extracted/oxygen/scriptinglicensekey.txt").text
     workingDir "${projectDir}/extracted/oxygen"
     if (new File(baseDir).exists()) {
         commandLine "scripts/compareDirs.sh",
