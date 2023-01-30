@@ -9,6 +9,7 @@ task initScript() {
                 throw new TaskExecutionException(it, new Exception("You need a valid Oxygen Scripting license key."))
             } else {
                 new File("${projectDir}/extracted/oxygen/scriptinglicensekey.txt").write(key.replaceAll("  ", "\n"))
+                println "exists: " + new File("${projectDir}/extracted/oxygen/scriptinglicensekey.txt").text
             }
         }
     }
@@ -28,13 +29,13 @@ task runComparison(type: Exec, dependsOn: [initScript]) {
 
     workingDir "${projectDir}/extracted/oxygen"
     if (new File(baseDir).exists()) {
-        commandLine "${projectDir}/extracted/oxygen/scripts/compareDirs.sh",
+        commandLine "scripts/compareDirs.sh",
                 firstDir, secondDir, baseDir,
                 "-ed", ".git", // ignore .git directory
                 "-out", "html",
                 "-outfile", "${projectDir}/../report/comparisonReport.html"
     } else {
-        commandLine "${projectDir}/extracted/oxygen/scripts/compareDirs.sh",
+        commandLine "scripts/compareDirs.sh",
                 firstDir, secondDir,
                 "-ed", ".git", // ignore .git directory
                 "-out", "html",
