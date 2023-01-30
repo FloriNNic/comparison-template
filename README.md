@@ -18,7 +18,7 @@ Feel free to use or remove the sample files provided with this template. To run 
 - Type the name of the second branch to compare.
 - Click <b>Run workflow</b>.
 
-📝 Make sure the workflow has read/write permissions (Settings &#8594; Actions &#8594; General &#8594; Workflow permissions). Otherwise, you may not be able to deploy your report.
+📝 The comparison report will be deployed to <i>gh-pages</i> branch. Make sure the workflow has read/write permissions (Settings &#8594; Actions &#8594; General &#8594; Workflow permissions). Otherwise, you may not be able to deploy your report.
 
 The comparison report generated using Oxygen Scripting should be available here:
 https://{userid}.github.io/{reponame}/comparisonReport.html
