@@ -18,6 +18,9 @@ Feel free to use or remove the sample files provided with this template. To run 
 - Type the name of the second branch to compare.
 - Click <b>Run workflow</b>.
 
+After the comparison, a report is created that provides details about the changes that were made. You can also use 
+the SHA of commits instead of branch names.
+
 📝 The comparison report will be deployed to <i>gh-pages</i> branch. Make sure the workflow has read/write permissions (Settings &#8594; Actions &#8594; General &#8594; Workflow permissions). Otherwise, you may not be able to deploy your report.
 
 The comparison report generated using Oxygen Scripting should be available here:
