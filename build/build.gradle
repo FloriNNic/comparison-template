@@ -25,7 +25,7 @@ task runComparison(type: Exec, dependsOn: [initScript]) {
     String schema = "${projectDir}" + (innerBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
     workingDir "${projectDir}/extracted/oxygen"
 
-    String schemaFileExtension = schema.lastIndexOf('.').with {it != -1 ? schema[it..<schema.length] : schema}
+    String schemaFileExtension = schema.lastIndexOf('.').with {it != -1 ? schema[it..<schema.length()] : schema}
     if (schemaFileExtension == "xsd") {
         commandLine "scripts/schemaDocumentation.sh", schema, "-out", "${projectDir}/../doc/validationReport.html"
     } else {
