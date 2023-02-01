@@ -26,10 +26,8 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
     workingDir "${projectDir}/extracted/oxygen"
 
     String schemaFileExtension = schema.lastIndexOf('.').with {it != -1 ? schema[it..<schema.length()] : schema}
-    if (schemaFileExtension == "xsd") {
+    if (schemaFileExtension == ".xsd") {
         commandLine "scripts/schemaDocumentation.sh", schema, "-out", "${projectDir}/../doc/validationReport.html"
-    } else {
-        println "Extension: " + schemaFileExtension
     }
 
     doLast {
