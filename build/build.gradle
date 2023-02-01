@@ -9,7 +9,6 @@ task initScript() {
                 throw new TaskExecutionException(it, new Exception("You need a valid Oxygen Scripting license key."))
             } else {
                 new File("${projectDir}/extracted/oxygen/scriptinglicensekey.txt").write(key.replaceAll("  ", "\n"))
-                println "exists: " + new File("${projectDir}/extracted/oxygen/scriptinglicensekey.txt").text
             }
         }
     }
@@ -22,42 +21,34 @@ task initScript() {
 }
 
 task runComparison(type: Exec, dependsOn: [initScript]) {
-    // Compute the branch directories depending on where the script is started from.
-    String firstDir = "${projectDir}" + (innerBuild.toBoolean() ? "/../" : "/../../") + firstBranch
-    String secondDir = "${projectDir}" + (innerBuild.toBoolean() ? "/../" : "/../../") + secondBranch
-    String baseDir = "${projectDir}" + (innerBuild.toBoolean() ? "/../" : "/../../") + "base"
-
+    // Compute the absolute schema file path depending on where the script is started from.
+    String schema = "${projectDir}" + (localBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
     workingDir "${projectDir}/extracted/oxygen"
-    if (new File(baseDir).exists()) {
-        commandLine "scripts/compareDirs.sh",
-                firstDir, secondDir, baseDir,
-                "-ed", ".git", // ignore .git directory
-                "-out", "html",
-                "-outfile", "${projectDir}/../report/comparisonReport.html"
+
+    String schemaFileExtension = schema.lastIndexOf('.').with {it != -1 ? schema[it..<schema.length] : schema}
+    if (schemaFileExtension == "xsd") {
+        commandLine "scripts/schemaDocumentation.sh", schema, "-out", "${projectDir}/../doc/validationReport.html"
     } else {
-        commandLine "scripts/compareDirs.sh",
-                firstDir, secondDir,
-                "-ed", ".git", // ignore .git directory
-                "-out", "html",
-                "-outfile", "${projectDir}/../report/comparisonReport.html"
+        println "Extension: " + schemaFileExtension
     }
 
     doLast {
         if (execResult.getExitValue() != 0) {
-            throw new TaskExecutionException(it, new Exception("Comparison failed, see task output for details."))
+            println new File("${projectDir}/../doc/validationReport.html").text
+            throw new TaskExecutionException(it, new Exception("Validation failed, see task output for details."))
         } else {
             // Replace file locations from GitHub VM with locations from repository.
             ant.replace(
-                    file: '../report/comparisonReport.html',
-                    token: 'file:/home/runner/work/comparison-template/comparison-template/main',
+                    file: '../doc/documentation.html',
+                    token: 'file:/home/runner/work/oxygen-sample-validation-script/oxygen-sample-validation-script',
                     value:  repoMainBranchUrl
             )
             ant.replace(
-                    file: '../report/comparisonReport.html',
-                    token: '/home/runner/work/' + repoName,
-                    value: ''
+                    file: '../report/validationReport.html',
+                    token: '/home/runner/work',
+                    value:  ''
             )
-        }        
+        }
     }
 }
 
