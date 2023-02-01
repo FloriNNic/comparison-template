@@ -20,7 +20,7 @@ task initScript() {
     }
 }
 
-task runComparison(type: Exec, dependsOn: [initScript]) {
+task generateDoc(type: Exec, dependsOn: [initScript]) {
     // Compute the absolute schema file path depending on where the script is started from.
     String schema = "${projectDir}" + (innerBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
     workingDir "${projectDir}/extracted/oxygen"
@@ -52,5 +52,5 @@ task runComparison(type: Exec, dependsOn: [initScript]) {
     }
 }
 
-defaultTasks 'runComparison'
+defaultTasks 'generateDoc'
 
