@@ -2,6 +2,7 @@ def generatedDocFilePath = "."
 
 task initScript() {
     doFirst {
+        println "INIT SCRIPT TASK"
         if (!new File("${projectDir}/extracted/oxygen/").exists()) {
             ant.get(src: 'https://www.oxygenxml.com/InstData/Editor/All/oxygen.tar.gz', dest: "${projectDir}/oxygen.tar.gz", skipexisting: 'true')
             ant.untar(src: "${projectDir}/oxygen.tar.gz", dest: "${projectDir}/extracted", compression: 'gzip')
@@ -26,31 +27,17 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
     // Compute the absolute schema file path depending on where the script is started from.
     String schemaFilePath = "${projectDir}" + (innerBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
     workingDir "${projectDir}/extracted/oxygen"
-
+    println "GENERATE DOC TASK"
     String schemaExtension = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[it..<schemaFile.length()] : schemaFile}
     if (schemaExtension == ".xsd") {
         commandLine "scripts/schemaDocumentation.sh", schemaFilePath
     }
     generatedDocFilePath = schemaFilePath.replace(schemaExtension, ".html")
-//    String schemaName = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[0..<it] : schemaFile}
 
     doLast {
-        println new File("${projectDir}/../schemas/personal.html").text
         if (execResult.getExitValue() != 0) {
             println new File("${projectDir}/../doc/documentation.html").text
             throw new TaskExecutionException(it, new Exception("Validation failed, see task output for details."))
-        } else {
-            // Replace file locations from GitHub VM with locations from repository.
-            ant.replace(
-                    file: '../doc/documentation.html',
-                    token: 'file:/home/runner/work/oxygen-script-documentation-template/oxygen-script-documentation-template',
-                    value:  repoMainBranchUrl
-            )
-            ant.replace(
-                    file: '../doc/documentation.html',
-                    token: '/home/runner/work',
-                    value:  ''
-            )
         }
     }
 }
@@ -62,17 +49,19 @@ task copyDocFile(type: Copy, dependsOn: [generateDoc]) {
 }
 
 task postProcessGeneration(dependsOn: [generateDoc]) {
-    // Replace file locations from GitHub VM with locations from repository.
-    ant.replace(
-            file: generatedDocFilePath,
-            token: 'file:/home/runner/work/oxygen-script-documentation-template/oxygen-script-documentation-template',
-            value:  repoMainBranchUrl
-    )
-    ant.replace(
-            file: generatedDocFilePath,
-            token: '/home/runner/work',
-            value:  ''
-    )
+    doLast {
+        // Replace file locations from GitHub VM with locations from repository.
+        ant.replace(
+                file: generatedDocFilePath,
+                token: 'file:/home/runner/work/oxygen-script-documentation-template/oxygen-script-documentation-template',
+                value:  repoMainBranchUrl
+        )
+        ant.replace(
+                file: generatedDocFilePath,
+                token: '/home/runner/work',
+                value:  ''
+        )
+    }
 }
 
 defaultTasks 'generateDoc'
