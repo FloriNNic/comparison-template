@@ -27,7 +27,8 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
 
     String schemaFileExtension = schema.lastIndexOf('.').with {it != -1 ? schema[it..<schema.length()] : schema}
     if (schemaFileExtension == ".xsd") {
-        commandLine "scripts/schemaDocumentation.sh", schema, "-out:", "${projectDir}/../doc/schemaDoc.html"
+        commandLine "scripts/schemaDocumentation.sh", schema, "-out:" //, "${projectDir}/../doc/documentation.html"
+        println new File("${projectDir}/../schemas/personal.html").text
     }
 
     doLast {
