@@ -36,8 +36,8 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
 
     doLast {
         if (execResult.getExitValue() != 0) {
-            println new File("${projectDir}/../doc/documentation.html").text
-            throw new TaskExecutionException(it, new Exception("Validation failed, see task output for details."))
+            println new File(generatedDocFilePath).text
+            throw new TaskExecutionException(it, new Exception("Generation failed, see task output for details."))
         }
     }
 }
