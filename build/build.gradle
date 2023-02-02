@@ -27,11 +27,11 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
 
     String schemaFileExtension = schema.lastIndexOf('.').with {it != -1 ? schema[it..<schema.length()] : schema}
     if (schemaFileExtension == ".xsd") {
-        commandLine "scripts/schemaDocumentation.sh", schema, "-out:" //, "${projectDir}/../doc/documentation.html"
-        println new File("${projectDir}/../schemas/personal.html").text
+        commandLine "scripts/schemaDocumentation.sh", schema //, "-out:", "${projectDir}/../doc/documentation.html"
     }
 
     doLast {
+        println new File("${projectDir}/../schemas/personal.html").text
         if (execResult.getExitValue() != 0) {
             println new File("${projectDir}/../doc/documentation.html").text
             throw new TaskExecutionException(it, new Exception("Validation failed, see task output for details."))
