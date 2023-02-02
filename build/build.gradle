@@ -43,10 +43,11 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
 }
 
 task copyDocFile(type: Copy, dependsOn: [generateDoc]) {
-    println "COPY DOC TASK"
-    from "${projectDir}/../schemas"
-    into "${projectDir}/../doc"
-    include '*.html'
+    doLast {
+        from "${projectDir}/../schemas"
+        into "${projectDir}/../doc"
+        include '*.html'
+    }
 }
 
 task postProcessGeneration(dependsOn: [generateDoc]) {
