@@ -39,19 +39,14 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
             println new File(generatedDocFilePath).text
             throw new TaskExecutionException(it, new Exception("Generation failed, see task output for details."))
         }
-    }
-}
-
-task copyDocFile(type: Copy, dependsOn: [generateDoc]) {
-    doLast {
-        println "COPY DOC TASK"
+        println "COPY TASK"
         from "${projectDir}/../schemas"
         into "${projectDir}/../doc"
         include '*.html'
     }
 }
 
-task postProcessGeneration(dependsOn: [copyDocFile]) {
+task postProcessGeneration(dependsOn: [generateDoc]) {
     doLast {
         println "POSTPROCESS DOC TASK"
         // Replace file locations from GitHub VM with locations from repository.
@@ -67,8 +62,6 @@ task postProcessGeneration(dependsOn: [copyDocFile]) {
         )
     }
 }
-
-copyDocFile.shouldRunAfter generateDoc
 
 defaultTasks 'generateDoc'
 
