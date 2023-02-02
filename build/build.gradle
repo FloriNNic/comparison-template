@@ -68,5 +68,7 @@ task postProcessGeneration(dependsOn: [copyDocFile]) {
     }
 }
 
+copyDocFile.shouldRunAfter generateDoc
+
 defaultTasks 'generateDoc'
 

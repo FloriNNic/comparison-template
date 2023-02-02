@@ -8,12 +8,12 @@ on:
   workflow_dispatch:
     inputs:
       schemaFile:
-        description: 'The schema file to generate documentation for.'
+        description: 'Schema file to generate documentation for.'
 jobs:
   generate-doc:
     runs-on: ubuntu-latest
     steps:
-        - name: Checkout main repo with entire history.
+        - name: Checkout main repo.
           uses: actions/checkout@v3.3.0
 
         - name: Setup Gradle
