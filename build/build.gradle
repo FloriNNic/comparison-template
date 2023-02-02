@@ -1,3 +1,5 @@
+def generatedDocFilePath = "."
+
 task initScript() {
     doFirst {
         if (!new File("${projectDir}/extracted/oxygen/").exists()) {
@@ -22,13 +24,15 @@ task initScript() {
 
 task generateDoc(type: Exec, dependsOn: [initScript]) {
     // Compute the absolute schema file path depending on where the script is started from.
-    String schema = "${projectDir}" + (innerBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
+    String schemaFilePath = "${projectDir}" + (innerBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
     workingDir "${projectDir}/extracted/oxygen"
 
-    String schemaFileExtension = schema.lastIndexOf('.').with {it != -1 ? schema[it..<schema.length()] : schema}
-    if (schemaFileExtension == ".xsd") {
-        commandLine "scripts/schemaDocumentation.sh", schema //, "-out:", "${projectDir}/../doc/documentation.html"
+    String schemaExtension = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[it..<schemaFile.length()] : schemaFile}
+    if (schemaExtension == ".xsd") {
+        commandLine "scripts/schemaDocumentation.sh", schemaFilePath
     }
+    generatedDocFilePath = schemaFilePath.replace(schemaExtension, ".html")
+//    String schemaName = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[0..<it] : schemaFile}
 
     doLast {
         println new File("${projectDir}/../schemas/personal.html").text
@@ -49,6 +53,26 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
             )
         }
     }
+}
+
+task copyDocFile(type: Copy, dependsOn: [generateDoc]) {
+    from "${projectDir}/../schemas"
+    into "${projectDir}/../doc"
+    include '*.html'
+}
+
+task postProcessGeneration(dependsOn: [generateDoc]) {
+    // Replace file locations from GitHub VM with locations from repository.
+    ant.replace(
+            file: generatedDocFilePath,
+            token: 'file:/home/runner/work/oxygen-script-documentation-template/oxygen-script-documentation-template',
+            value:  repoMainBranchUrl
+    )
+    ant.replace(
+            file: generatedDocFilePath,
+            token: '/home/runner/work',
+            value:  ''
+    )
 }
 
 defaultTasks 'generateDoc'
