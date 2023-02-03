@@ -42,7 +42,7 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
     }
 }
 
-task copyDocFile(type: Copy) {
+task copyDocFile(type: Copy, dependsOn: [generateDoc]) {
     doLast {
         println "COPY DOC TASK"
         from "${projectDir}/../schemas"
@@ -68,7 +68,7 @@ task postProcessGeneration(dependsOn: [generateDoc]) {
     }
 }
 
-task runGenerator(dependsOn: [generateDoc, copyDocFile])
+task runGenerator(dependsOn: [generateDoc, postProcessGeneration, copyDocFile])
 
 defaultTasks 'runGenerator'
 
