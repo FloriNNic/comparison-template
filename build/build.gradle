@@ -51,7 +51,7 @@ task copyDocFile(type: Copy, dependsOn: [generateDoc]) {
     }
 }
 
-task postProcessGeneration(dependsOn: [copyDocFile]) {
+task postProcessGeneration() {
     doLast {
         println "POSTPROCESS DOC TASK"
         // Replace file locations from GitHub VM with locations from repository.
