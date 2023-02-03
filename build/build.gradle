@@ -38,37 +38,38 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
         if (execResult.getExitValue() != 0) {
             println new File(generatedDocFilePath).text
             throw new TaskExecutionException(it, new Exception("Generation failed, see task output for details."))
+        } else {
+                println "POSTPROCESS DOC TASK"
+                // Replace file locations from GitHub VM with locations from repository.
+                ant.replace(
+                        file: generatedDocFilePath,
+                        token: 'file:/home/runner/work/oxygen-script-documentation-template/oxygen-script-documentation-template',
+                        value:  repoMainBranchUrl
+                )
+                ant.replace(
+                        file: generatedDocFilePath,
+                        token: '/home/runner/work',
+                        value:  ''
+                )
         }
     }
 }
 
 task copyDocFile(type: Copy, dependsOn: [generateDoc]) {
-    doLast {
+    doFirst {
         println "COPY DOC TASK"
+    }
+
         from "${projectDir}/../schemas"
         into "${projectDir}/../doc"
         include '*.html'
-    }
-}
 
-task postProcessGeneration(dependsOn: [generateDoc]) {
     doLast {
-        println "POSTPROCESS DOC TASK"
-        // Replace file locations from GitHub VM with locations from repository.
-        ant.replace(
-                file: generatedDocFilePath,
-                token: 'file:/home/runner/work/oxygen-script-documentation-template/oxygen-script-documentation-template',
-                value:  repoMainBranchUrl
-        )
-        ant.replace(
-                file: generatedDocFilePath,
-                token: '/home/runner/work',
-                value:  ''
-        )
+        println "END COPY TASK"
     }
 }
 
-task runGenerator(dependsOn: [generateDoc, postProcessGeneration, copyDocFile])
+task runGenerator(dependsOn: [generateDoc, copyDocFile])
 
 defaultTasks 'runGenerator'
 
