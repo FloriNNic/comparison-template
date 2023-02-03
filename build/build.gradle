@@ -42,7 +42,7 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
     }
 }
 
-task copyDocFile(type: Copy, dependsOn: [generateDoc]) {
+task copyDocFile(type: Copy) {
     doLast {
         println "COPY DOC TASK"
         from "${projectDir}/../schemas"
