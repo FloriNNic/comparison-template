@@ -18,22 +18,22 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
     // Compute the absolute schema file path depending on where the script is started from.
     String schemaFilePath = "${projectDir}" + (innerBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
     String schemaExtension = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[it..<schemaFile.length()] : schemaFile}
-    switch (schemaExtension) {
-        case ".xsd":
-            givePermissionAndRunScript("schemaDocumentation.sh", schemaFilePath)
-            break
-        case ".xsl":
-            givePermissionAndRunScript("stylesheetDocumentation.sh", schemaFilePath)
-            break
-        case ".wsdl":
-            givePermissionAndRunScript("wsdlDocumentation.sh", schemaFilePath)
-            break
-        default:
-            break
-    }
     generatedDocFilePath = schemaFilePath.replace(schemaExtension, ".html")
 
     doLast {
+        switch (schemaExtension) {
+            case ".xsd":
+                givePermissionAndRunScript("schemaDocumentation.sh", schemaFilePath)
+                break
+            case ".xsl":
+                givePermissionAndRunScript("stylesheetDocumentation.sh", schemaFilePath)
+                break
+            case ".wsdl":
+                givePermissionAndRunScript("wsdlDocumentation.sh", schemaFilePath)
+                break
+            default:
+                break
+        }
         if (execResult.getExitValue() != 0) {
             println new File(generatedDocFilePath).text
             throw new TaskExecutionException(it, new Exception("Generation failed, see task output for details."))
