@@ -19,8 +19,6 @@ task initScript() {
 task generateDoc(type: Exec, dependsOn: [initScript]) {
     // Compute the absolute schema file path depending on where the script is started from.
     String schemaFilePath = "${projectDir}" + (innerBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
-    workingDir "${projectDir}/extracted/oxygen"
-    println "GENERATE DOC TASK"
     String schemaExtension = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[it..<schemaFile.length()] : schemaFile}
     switch (schemaExtension) {
         case ".xsd":
