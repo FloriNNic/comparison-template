@@ -16,23 +16,24 @@ task initScript() {
             }
         }
     }
-        // Compute the absolute schema file path depending on where the script is started from.
-        schemaFilePath = "${projectDir}" + (innerBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
-        String schemaExtension = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[it..<schemaFile.length()] : schemaFile}
-        generatedDocFilePath = schemaFilePath.replace(schemaExtension, ".html")
-        switch (schemaExtension) {
-            case ".xsd":
-                scriptToRun = "schemaDocumentation.sh"
-                break
-            case ".xsl":
-                scriptToRun = "stylesheetDocumentation.sh"
-                break
-            case ".wsdl":
-                scriptToRun = "wsdlDocumentation.sh"
-                break
-            default:
-                break
-        }
+    // Compute the absolute schema file path depending on where the script is started from.
+    schemaFilePath = "${projectDir}" + (innerBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
+    String schemaExtension = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[it..<schemaFile.length()] : schemaFile}
+    generatedDocFilePath = schemaFilePath.replace(schemaExtension, ".html")
+    switch (schemaExtension) {
+        case ".xsd":
+            scriptToRun = "schemaDocumentation.sh"
+            break
+        case ".xsl":
+            scriptToRun = "stylesheetDocumentation.sh"
+            break
+        case ".wsdl":
+            scriptToRun = "wsdlDocumentation.sh"
+            break
+        default:
+            break
+    }
+
     doLast {
         project.exec {
             workingDir "${projectDir}/extracted/oxygen/scripts"
