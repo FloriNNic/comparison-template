@@ -14,14 +14,6 @@ task initScript() {
             }
         }
     }
-    doLast {
-        project.exec {
-            workingDir "${projectDir}/extracted/oxygen/scripts"
-            commandLine 'chmod', '700', 'schemaDocumentation.sh'
-            commandLine 'chmod', '700', 'stylesheetDocumentation.sh'
-            commandLine 'chmod', '700', 'wsdlDocumentation.sh'
-        }
-    }
 }
 
 task generateDoc(type: Exec, dependsOn: [initScript]) {
@@ -32,13 +24,13 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
     String schemaExtension = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[it..<schemaFile.length()] : schemaFile}
     switch (schemaExtension) {
         case ".xsd":
-            commandLine "scripts/schemaDocumentation.sh", schemaFilePath
+            givePermissionAndRunScript("schemaDocumentation.sh", schemaFilePath)
             break
         case ".xsl":
-            commandLine "scripts/stylesheetDocumentation.sh", schemaFilePath
+            givePermissionAndRunScript("stylesheetDocumentation.sh", schemaFilePath)
             break
         case ".wsdl":
-            commandLine "scripts/wsdlDocumentation.sh", schemaFilePath
+            givePermissionAndRunScript("wsdlDocumentation.sh", schemaFilePath)
             break
         default:
             break
@@ -63,6 +55,17 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
                         value:  ''
                 )
         }
+    }
+}
+
+givePermissionAndRunScript (String scriptName, String schemaFilePath) {
+    project.exec {
+        workingDir "${projectDir}/extracted/oxygen/scripts"
+        commandLine 'chmod', '700', scriptName
+    }
+    project.exec {
+        workingDir "${projectDir}/extracted/oxygen"
+        commandLine "scripts/" + scriptName, schemaFilePath
     }
 }
 
