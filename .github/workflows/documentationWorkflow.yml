@@ -2,9 +2,9 @@ name: Generate Documentation
 on:
   push:
     branches: [ main ]
-    paths:
-      # Automatically run the script when changes are pushed to "schemas" directory.
-      - schemas/**
+#     paths:
+#       # Automatically run the script when changes are pushed to "schemas" directory.
+#       - schemas/**
   workflow_dispatch:
     inputs:
       schemaFile:
@@ -27,7 +27,7 @@ jobs:
           env:
            SCRIPTING_LICENSE_KEY: ${{secrets.SCRIPTING_LICENSE_KEY}}
           run: |
-            cd build; ./gradlew runGenerator -PschemaFile=${{ inputs.schemaFile }} -PinnerBuild=true --info --stacktrace --build-cache
+            cd build; ./gradlew runGenerator -PschemaFile=personal.xsd -PinnerBuild=true --info --stacktrace --build-cache
        
         - name: Deploy
           uses: JamesIves/github-pages-deploy-action@v4.4.1
