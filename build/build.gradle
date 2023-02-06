@@ -42,13 +42,10 @@ task initScript() {
 
 task generateDoc(type: Exec, dependsOn: [initScript]) {
     println "Maybe doFirst."
-
+    workingDir "${projectDir}/extracted/oxygen"
+    commandLine "scripts/" + scriptToRun, schemaFilePath
     doLast {
         println "Script to run: " + scriptToRun
-        project.exec {
-            workingDir "${projectDir}/extracted/oxygen"
-            commandLine "scripts/" + scriptToRun, schemaFilePath
-        }
 
         if (execResult.getExitValue() != 0) {
             println new File(generatedDocFilePath).text
