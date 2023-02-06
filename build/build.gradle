@@ -35,15 +35,13 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
         default:
             break
     }
+    println "Maybe doFirst."
+    workingDir "${projectDir}/extracted/oxygen/scripts"
+    commandLine 'chmod', '700', scriptToRun
 
     doLast {
         println "Script to run: " + scriptToRun
-        project.exec {
-            workingDir "${projectDir}/extracted/oxygen/scripts"
-            commandLine 'chmod', '700', scriptToRun
-        }
-            workingDir "${projectDir}/extracted/oxygen"
-            commandLine "scripts/" + scriptToRun, schemaFilePath
+        commandLine scriptToRun, schemaFilePath
 
         if (execResult.getExitValue() != 0) {
             println new File(generatedDocFilePath).text
