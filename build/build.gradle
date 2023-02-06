@@ -58,7 +58,7 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
     }
 }
 
-givePermissionAndRunScript (String scriptName, String schemaFilePath) {
+def givePermissionAndRunScript (String scriptName, String schemaFilePath) {
     project.exec {
         workingDir "${projectDir}/extracted/oxygen/scripts"
         commandLine 'chmod', '700', scriptName
