@@ -1,7 +1,6 @@
 def generatedDocFilePath = "."
 
 task initScript() {
-    doFirst {
         if (!new File("${projectDir}/extracted/oxygen/").exists()) {
             ant.get(src: 'https://www.oxygenxml.com/InstData/Editor/All/oxygen.tar.gz', dest: "${projectDir}/oxygen.tar.gz", skipexisting: 'true')
             ant.untar(src: "${projectDir}/oxygen.tar.gz", dest: "${projectDir}/extracted", compression: 'gzip')
@@ -13,7 +12,6 @@ task initScript() {
                 new File("${projectDir}/extracted/oxygen/scriptinglicensekey.txt").write(key.replaceAll("  ", "\n"))
             }
         }
-    }
 }
 
 task generateDoc(type: Exec, dependsOn: [initScript]) {
