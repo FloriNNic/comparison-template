@@ -19,17 +19,27 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
     String schemaFilePath = "${projectDir}" + (innerBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
     String schemaExtension = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[it..<schemaFile.length()] : schemaFile}
     generatedDocFilePath = schemaFilePath.replace(schemaExtension, ".html")
-
+    ext.givePermissionAndRunScript = { scriptName ->
+        project.exec {
+            workingDir "${projectDir}/extracted/oxygen/scripts"
+            commandLine 'chmod', '700', scriptName
+        }
+        project.exec {
+            workingDir "${projectDir}/extracted/oxygen"
+            commandLine "scripts/" + scriptName, schemaFilePath
+        }
+        // Method body here
+    }
     doLast {
         switch (schemaExtension) {
             case ".xsd":
-                givePermissionAndRunScript("schemaDocumentation.sh", schemaFilePath)
+                givePermissionAndRunScript("schemaDocumentation.sh")
                 break
             case ".xsl":
-                givePermissionAndRunScript("stylesheetDocumentation.sh", schemaFilePath)
+                givePermissionAndRunScript("stylesheetDocumentation.sh")
                 break
             case ".wsdl":
-                givePermissionAndRunScript("wsdlDocumentation.sh", schemaFilePath)
+                givePermissionAndRunScript("wsdlDocumentation.sh")
                 break
             default:
                 break
@@ -54,7 +64,7 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
     }
 }
 
-def givePermissionAndRunScript (String scriptName, String schemaFilePath) {
+def givePermissionAndRunScript2 (String scriptName, String schemaFilePath) {
     project.exec {
         workingDir "${projectDir}/extracted/oxygen/scripts"
         commandLine 'chmod', '700', scriptName
