@@ -1,6 +1,6 @@
-def generatedDocFilePath = "."
-def scriptToRun = ""
-def schemaFilePath = ""
+def schemaFilePath
+
+def scriptToRun
 
 task initScript() {
     doFirst {
@@ -16,20 +16,9 @@ task initScript() {
             }
         }
     }
-    computeScriptToBeRun()
-    doLast {
-        project.exec {
-            workingDir "${projectDir}/extracted/oxygen/scripts"
-            commandLine 'chmod', '700', scriptToRun
-        }
-    }
-}
-
-def computeScriptToBeRun() {
     // Compute the absolute schema file path depending on where the script is started from.
     schemaFilePath = "${projectDir}" + (innerBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
     String schemaExtension = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[it..<schemaFile.length()] : schemaFile}
-    generatedDocFilePath = schemaFilePath.replace(schemaExtension, ".html")
     switch (schemaExtension) {
         case ".xsd":
             scriptToRun = "schemaDocumentation.sh"
@@ -43,6 +32,13 @@ def computeScriptToBeRun() {
         default:
             break
     }
+
+    doLast {
+        project.exec {
+            workingDir "${projectDir}/extracted/oxygen/scripts"
+            commandLine 'chmod', '700', scriptToRun
+        }
+    }
 }
 
 task generateDoc(type: Exec, dependsOn: [initScript]) {
@@ -53,6 +49,7 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
             println new File(generatedDocFilePath).text
             throw new TaskExecutionException(it, new Exception("Generation failed, see task output for details."))
         } else {
+                String generatedDocFilePath = schemaFilePath.replace(schemaExtension, ".html")
                 // Replace file locations from GitHub VM with locations from repository.
                 ant.replace(
                         file: generatedDocFilePath,
@@ -68,16 +65,17 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
     }
 }
 
-task copyDocFile(type: Copy, dependsOn: [generateDoc]) {
-        from "${projectDir}/../schemas"
-        into "${projectDir}/../doc"
-        include '*.html'
-        include '*.png'
-        include 'img'
-        include '*.css'
+task copyDocFiles(type: Copy, dependsOn: [generateDoc]) {
+    from "${projectDir}/../schemas"
+    into "${projectDir}/../doc"
+    include '*.html'
+    include '*.png'
+    include '*.css'
+    from "${projectDir}/../schemas/img"
+    into "${projectDir}/../doc/img"
 }
 
-task runGenerator(dependsOn: [generateDoc, copyDocFile])
+task runGenerator(dependsOn: [generateDoc, copyDocFiles])
 
 defaultTasks 'runGenerator'
 
