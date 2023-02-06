@@ -15,10 +15,8 @@ task initScript() {
             }
         }
     }
-}
 
-task generateDoc(type: Exec, dependsOn: [initScript]) {
-    doFirst {
+    doLast {
         // Compute the absolute schema file path depending on where the script is started from.
         String schemaFilePath = "${projectDir}" + (innerBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
         String schemaExtension = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[it..<schemaFile.length()] : schemaFile}
@@ -37,7 +35,9 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
                 break
         }
     }
+}
 
+task generateDoc(type: Exec, dependsOn: [initScript]) {
     println "Maybe doFirst."
     workingDir "${projectDir}/extracted/oxygen/scripts"
     commandLine 'chmod', '700', scriptToRun
