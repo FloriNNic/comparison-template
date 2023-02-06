@@ -67,9 +67,9 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
 
 task copyDocFiles(type: Copy, dependsOn: [generateDoc]) {
     from "${projectDir}/../schemas"
-    from "${projectDir}/../schemas/img" {
-        into "${projectDir}/../doc/img"
-    }
+//    from "${projectDir}/../schemas/img" {
+//        into "${projectDir}/../doc/img"
+//    }
     into "${projectDir}/../doc"
     include '*.html'
     include '*.png'
