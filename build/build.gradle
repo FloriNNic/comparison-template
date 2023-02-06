@@ -45,7 +45,7 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
     workingDir "${projectDir}/extracted/oxygen"
     commandLine "scripts/" + scriptToRun, schemaFilePath
     doLast {
-        String generatedDocFilePath = filename[0..<filename.lastIndexOf('.')] + ".html"
+        String generatedDocFilePath = schemaFilePath[0..<schemaFilePath.lastIndexOf('.')] + ".html"
         if (execResult.getExitValue() != 0) {
             println new File(generatedDocFilePath).text
             throw new TaskExecutionException(it, new Exception("Generation failed, see task output for details."))
