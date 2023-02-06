@@ -40,7 +40,8 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
         case ".wsdl":
             commandLine "scripts/wsdlDocumentation.sh", schemaFilePath
             break
-        default -> break
+        default:
+            break
     }
     generatedDocFilePath = schemaFilePath.replace(schemaExtension, ".html")
 
