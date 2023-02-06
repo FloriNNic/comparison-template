@@ -33,8 +33,8 @@ task initScript() {
                 break
         }
     doLast {
-        workingDir "${projectDir}/extracted/oxygen/scripts"
         project.exec {
+            workingDir "${projectDir}/extracted/oxygen/scripts"
             commandLine 'chmod', '700', scriptToRun
         }
     }
