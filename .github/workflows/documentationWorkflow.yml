@@ -9,7 +9,7 @@ on:
     inputs:
       schemaFile:
         description: 'Schema file to generate documentation for.'
-        require: true
+        required: true
 jobs:
   generate-doc:
     runs-on: ubuntu-latest

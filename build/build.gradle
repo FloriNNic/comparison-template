@@ -2,7 +2,6 @@ def generatedDocFilePath = "."
 
 task initScript() {
     doFirst {
-        println "INIT SCRIPT TASK"
         if (!new File("${projectDir}/extracted/oxygen/").exists()) {
             ant.get(src: 'https://www.oxygenxml.com/InstData/Editor/All/oxygen.tar.gz', dest: "${projectDir}/oxygen.tar.gz", skipexisting: 'true')
             ant.untar(src: "${projectDir}/oxygen.tar.gz", dest: "${projectDir}/extracted", compression: 'gzip')
@@ -19,6 +18,8 @@ task initScript() {
         project.exec {
             workingDir "${projectDir}/extracted/oxygen/scripts"
             commandLine 'chmod', '700', 'schemaDocumentation.sh'
+            commandLine 'chmod', '700', 'stylesheetDocumentation.sh'
+            commandLine 'chmod', '700', 'wsdlDocumentation.sh'
         }
     }
 }
@@ -29,8 +30,13 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
     workingDir "${projectDir}/extracted/oxygen"
     println "GENERATE DOC TASK"
     String schemaExtension = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[it..<schemaFile.length()] : schemaFile}
-    if (schemaExtension == ".xsd") {
-        commandLine "scripts/schemaDocumentation.sh", schemaFilePath
+    switch (schemaExtension) {
+        case ".xsd":
+            commandLine "scripts/schemaDocumentation.sh", schemaFilePath
+        case ".xsl":
+            commandLine "scripts/stylesheetDocumentation.sh", schemaFilePath
+        case ".wsdl":
+            commandLine "scripts/wsdlDocumentation.sh", schemaFilePath
     }
     generatedDocFilePath = schemaFilePath.replace(schemaExtension, ".html")
 
