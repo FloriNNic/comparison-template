@@ -33,10 +33,14 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
     switch (schemaExtension) {
         case ".xsd":
             commandLine "scripts/schemaDocumentation.sh", schemaFilePath
+            break
         case ".xsl":
             commandLine "scripts/stylesheetDocumentation.sh", schemaFilePath
+            break
         case ".wsdl":
             commandLine "scripts/wsdlDocumentation.sh", schemaFilePath
+            break
+        default -> break
     }
     generatedDocFilePath = schemaFilePath.replace(schemaExtension, ".html")
 
