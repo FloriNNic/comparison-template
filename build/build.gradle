@@ -33,6 +33,7 @@ task initScript() {
             default:
                 break
         }
+
 }
 
 task generateDoc(type: Exec, dependsOn: [initScript]) {
@@ -40,11 +41,11 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
 
     doLast {
         workingDir "${projectDir}/extracted/oxygen/scripts"
-        exec {
+        project.exec {
             commandLine 'chmod', '700', scriptToRun
         }
         println "Script to run: " + scriptToRun
-        exec {
+        project.exec {
             commandLine scriptToRun, schemaFilePath
         }
 
