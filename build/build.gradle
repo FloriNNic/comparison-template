@@ -1,7 +1,3 @@
-def schemaFilePath // The input schema file path.
-
-def scriptToRun // The sh script that needs to be run, according to the input file.
-
 task initScript() {
     doFirst {
         if (!new File("${projectDir}/extracted/oxygen/").exists()) {
@@ -17,7 +13,7 @@ task initScript() {
         }
     }
 
-    ScriptUtil.computeScriptToRun()
+    DocumentationScript.computeScriptToRun()
 
     doLast {
         project.exec {
@@ -29,7 +25,7 @@ task initScript() {
 
 task generateDoc(type: Exec, dependsOn: [initScript]) {
     workingDir "${projectDir}/extracted/oxygen"
-    commandLine "scripts/" + scriptToRun, schemaFilePath, "-out:" + "../doc/documentation.html"
+    commandLine "scripts/" + DocumentationScript.scriptToRun, DocumentationScript.schemaFilePath, "-out:" + "../doc/documentation.html"
     doLast {
         String generatedDocFilePath = "${projectDir}/../doc/documentation.html"
         if (execResult.getExitValue() != 0) {
@@ -53,7 +49,11 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
 
 defaultTasks 'generateDoc'
 
-class ScriptUtil {
+class DocumentationScript {
+    def static schemaFilePath // The input schema file path.
+
+    def static scriptToRun // The sh script that needs to be run, according to the input file.
+
     static void computeScriptToRun() {
         // Compute the absolute schema file path depending on where the script is started from.
         schemaFilePath = "${projectDir}" + (innerBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
