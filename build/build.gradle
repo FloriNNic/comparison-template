@@ -1,6 +1,6 @@
-def schemaFilePath
+def schemaFilePath // The input schema file path.
 
-def scriptToRun
+def scriptToRun // The sh script that needs to be run, according to the input file.
 
 task initScript() {
     doFirst {
@@ -16,22 +16,8 @@ task initScript() {
             }
         }
     }
-    // Compute the absolute schema file path depending on where the script is started from.
-    schemaFilePath = "${projectDir}" + (innerBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
-    String schemaExtension = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[it..<schemaFile.length()] : schemaFile}
-    switch (schemaExtension) {
-        case ".xsd":
-            scriptToRun = "schemaDocumentation.sh"
-            break
-        case ".xsl":
-            scriptToRun = "stylesheetDocumentation.sh"
-            break
-        case ".wsdl":
-            scriptToRun = "wsdlDocumentation.sh"
-            break
-        default:
-            break
-    }
+
+    ScriptUtil.computeScriptToRun()
 
     doLast {
         project.exec {
@@ -66,4 +52,26 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
 }
 
 defaultTasks 'generateDoc'
+
+class ScriptUtil {
+    static void computeScriptToRun() {
+        // Compute the absolute schema file path depending on where the script is started from.
+        schemaFilePath = "${projectDir}" + (innerBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
+        String schemaExtension = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[it..<schemaFile.length()] : schemaFile}
+
+        switch (schemaExtension) {
+            case ".xsd":
+                scriptToRun = "schemaDocumentation.sh"
+                break
+            case ".xsl":
+                scriptToRun = "stylesheetDocumentation.sh"
+                break
+            case ".wsdl":
+                scriptToRun = "wsdlDocumentation.sh"
+                break
+            default:
+                break
+        }
+    }
+}
 
