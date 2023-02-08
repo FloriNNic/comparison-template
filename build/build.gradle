@@ -1,3 +1,7 @@
+def schemaFilePath // The input schema file path.
+
+def scriptToRun // The sh script that needs to be run, according to the input file.
+
 task initScript() {
     doFirst {
         if (!new File("${projectDir}/extracted/oxygen/").exists()) {
@@ -12,8 +16,23 @@ task initScript() {
             }
         }
     }
+    // Compute the absolute schema file path depending on where the script is started from.
+    schemaFilePath = "${projectDir}" + (innerBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
+    String schemaExtension = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[it..<schemaFile.length()] : schemaFile}
 
-    DocumentationScript.computeScriptToRun()
+    switch (schemaExtension) {
+        case ".xsd":
+            scriptToRun = "schemaDocumentation.sh"
+            break
+        case ".xsl":
+            scriptToRun = "stylesheetDocumentation.sh"
+            break
+        case ".wsdl":
+            scriptToRun = "wsdlDocumentation.sh"
+            break
+        default:
+            break
+    }
 
     doLast {
         project.exec {
@@ -25,7 +44,7 @@ task initScript() {
 
 task generateDoc(type: Exec, dependsOn: [initScript]) {
     workingDir "${projectDir}/extracted/oxygen"
-    commandLine "scripts/" + DocumentationScript.scriptToRun, DocumentationScript.schemaFilePath, "-out:" + "../doc/documentation.html"
+    commandLine "scripts/" + scriptToRun, schemaFilePath, "-out:" + "../doc/documentation.html"
     doLast {
         String generatedDocFilePath = "${projectDir}/../doc/documentation.html"
         if (execResult.getExitValue() != 0) {
@@ -48,30 +67,4 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
 }
 
 defaultTasks 'generateDoc'
-
-class DocumentationScript {
-    def static schemaFilePath // The input schema file path.
-
-    def static scriptToRun // The sh script that needs to be run, according to the input file.
-
-    static void computeScriptToRun() {
-        // Compute the absolute schema file path depending on where the script is started from.
-        schemaFilePath = "${projectDir}" + (innerBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
-        String schemaExtension = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[it..<schemaFile.length()] : schemaFile}
-
-        switch (schemaExtension) {
-            case ".xsd":
-                scriptToRun = "schemaDocumentation.sh"
-                break
-            case ".xsl":
-                scriptToRun = "stylesheetDocumentation.sh"
-                break
-            case ".wsdl":
-                scriptToRun = "wsdlDocumentation.sh"
-                break
-            default:
-                break
-        }
-    }
-}
 
