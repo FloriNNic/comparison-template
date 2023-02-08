@@ -43,7 +43,7 @@ task initScript() {
 
 task generateDoc(type: Exec, dependsOn: [initScript]) {
     workingDir "${projectDir}/extracted/oxygen"
-    commandLine "scripts/" + scriptToRun, schemaFilePath
+    commandLine "scripts/" + scriptToRun, schemaFilePath, "-out:" + "out/documentation.html"
     doLast {
         String generatedDocFilePath = schemaFilePath[0..<schemaFilePath.lastIndexOf('.')] + ".html"
         if (execResult.getExitValue() != 0) {
