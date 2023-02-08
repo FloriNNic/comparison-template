@@ -45,7 +45,7 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
     workingDir "${projectDir}/extracted/oxygen"
     commandLine "scripts/" + scriptToRun, schemaFilePath, "-out:" + "out/documentation.html"
     doLast {
-        String generatedDocFilePath = schemaFilePath[0..<schemaFilePath.lastIndexOf('.')] + ".html"
+        String generatedDocFilePath = schemaFilePath.replace(schemaFile, "") + "out/documentation.html"
         if (execResult.getExitValue() != 0) {
             println new File(generatedDocFilePath).text
             throw new TaskExecutionException(it, new Exception("Generation failed, see task output for details."))
@@ -65,18 +65,16 @@ task generateDoc(type: Exec, dependsOn: [initScript]) {
     }
 }
 
-task copyDocFiles(type: Copy, dependsOn: [generateDoc]) {
-    from "${projectDir}/../schemas"
-//    from "${projectDir}/../schemas/img" {
-//        into "${projectDir}/../doc/img"
-//    }
-    into "${projectDir}/../doc"
-    include '*.html'
-    include '*.png'
-    include '*.css'
-}
+//task copyDocFiles(type: Copy, dependsOn: [generateDoc]) {
+//    from "${projectDir}/../schemas"
+////    from "${projectDir}/../schemas/img" {
+////        into "${projectDir}/../doc/img"
+////    }
+//    into "${projectDir}/../doc"
+//    include '*.html'
+//    include '*.png'
+//    include '*.css'
+//}
 
-task runGenerator(dependsOn: [generateDoc, copyDocFiles])
-
-defaultTasks 'runGenerator'
+defaultTasks 'generateDoc'
 
