@@ -42,7 +42,7 @@ task initScript() {
 task generateDoc(type: Exec, dependsOn: [initScript]) {
     // Compute the absolute schema file path depending on where the script is started from.
     String schemaFilePath = "${projectDir}" + (innerBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
-    String outputFile = "${projectDir}/../doc/" + schemaFile.take(schemaFile.lastIndexOf('.')) + "html"
+    String outputFile = "${projectDir}/../doc/" + schemaFile.take(schemaFile.lastIndexOf('.')) + ".html"
 
     workingDir "${projectDir}/extracted/oxygen"
     commandLine "scripts/" + scriptToRun, schemaFilePath, "-out:" + outputFile
