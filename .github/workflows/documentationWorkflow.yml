@@ -1,7 +1,7 @@
 name: Generate Documentation
 on:
-  push:
-    branches: [ main ]
+#  push:
+#    branches: [ main ]
 #     paths:
 #       # Automatically run the script when changes are pushed to "schemas" directory.
 #       - schemas/**
@@ -27,7 +27,7 @@ jobs:
           env:
            SCRIPTING_LICENSE_KEY: ${{secrets.SCRIPTING_LICENSE_KEY}}
           run: |
-            cd build; ./gradlew generateDoc -PschemaFile=personal.xsl -PinnerBuild=true --info --stacktrace --build-cache
+            cd build; ./gradlew generateDoc -PschemaFile=${{inputs.schemaFile}} -PinnerBuild=true --info --stacktrace --build-cache
        
         - name: Deploy
           uses: JamesIves/github-pages-deploy-action@v4.4.1
