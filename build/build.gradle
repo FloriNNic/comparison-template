@@ -15,7 +15,7 @@ task initScript() {
         }
     }
 
-    schemaExtension = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[it..<schemaFile.length()] : schemaFile}
+    String schemaExtension = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[it..<schemaFile.length()] : schemaFile}
 
     switch (schemaExtension) {
         case ".xsd":
