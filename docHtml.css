@@ -1,3 +1,52 @@
+/* ---------------------------------
+   WSDL specific CSS
+------------------------------------*/
+
+table.wsdlComponent {
+    width:100%;
+    border-spacing:1px;
+}
+
+@media print{
+    table.wsdlComponent td{
+        border:1px solid gray;
+    }
+    
+    table.wsdlComponent{
+        border:1px solid gray;
+        border-collapse:collapse;
+    }
+}
+
+table.wsdlComponent td.firstColumn{
+    /*orange*/
+    background-color:#FFDFA0;
+    color:black;
+    width:12%;
+}
+
+table.wsdlComponent table td.firstColumn{
+    /*orange*/
+    background-color:#FFF0D3;
+    border:none;
+    color: inherit;
+}
+
+/* Subtables */
+table.wsdlComponent table{
+    width:100%;
+}
+
+table.wsdlComponent table,
+table.wsdlComponent table td,
+table.wsdlComponent table th{
+    border:0;
+}
+
+/* ---------------------------------
+   WSDL and XML Schema CSS
+------------------------------------*/
+
 /*----------------------------------------
     Global 
 -----------------------------------------*/
@@ -59,108 +108,23 @@ span.tEn {
     color: #969600;
     background-color:inherit;
 }
-/* Title sections */
 span.qname{
-    color:black;
+    color:#000096;
     background-color:inherit;
-}
-
-span.titleTemplateName{
-    background-image:url('img/tplN16.gif');
-    background-position:left 0;
-    background-repeat:no-repeat;
-    padding-left:20px;
-    color:black;
-}
-
-span.titleTemplateMatch {
-    color:black;
-    background-color:inherit;
-    margin-left:5px;
-    margin-right:10px;
-}
-
-span.titleTemplateMode:before {
-    content:'[';
-    /*margin-left:10px;*/
-}
-span.titleTemplateMode:after {
-    content:']';
-}
-span.titleTemplateMode {
-    color:gray;
-    background-color:inherit;
-    font-style:italic;
-}
-
-.fParams {
-   color:rgb(100, 100, 100);
-} 
-
-.refItemBlock {
-    display:inline;
-}
-
-.refItemSep {
-    display:inline;
-}
-
-div.indentWrapDiv {
-   margin-left:25px;
-   text-indent: -25px;
-}
-
-/* Template reference sections*/
-.nRf{
-  background-image:url('img/tplN12.gif');
-  background-repeat:no-repeat;
-  padding-left:14px;
-  margin-right:4px;
-}
-
-.mRfI{
-    margin-right:4px;
-
-}
-
-.mRf{
-  margin-right:4px;
-}
-
-.cRfI{
-}
-
-.mdRf:before {
-    content:'[';
-    margin-left:4px;
-}
-.mdRf:after{
-    content:']';
-}
-.mdRf{
-    color:gray;
-    font-style:italic;
-}
-
-/* Indent the wrapping lines to the right.
-   Only the first line is at 0, the rest are 
-   some distance to the right.*/
-.rt_content div[id]{
- /*margin-left:30px;*/
 }
 
 /*-----------------------------------------
     Documentation sections.
 ------------------------------------------*/
 
-div.cmpT {
+div.componentTitle, p.sHierarchyTitle {
     font-size:1.4em;
     font-weight:bold;
     text-align:left;
     margin-top:1.4em;
     margin-bottom:0.7em;
 }
-div.cmpT{
+div.componentTitle{
 /*    color:rgb(255, 160, 100);*/
     color:#333333;
     background-color:inherit;
@@ -176,7 +140,7 @@ td, th {
 }
 
 tr > th {
-    background-color:rgb(206, 239, 174);
+    background-color:#C4DAF4;
     color:inherit;
 }
 
@@ -199,11 +163,11 @@ table.component {
 
 
 
-table.component td.fCol{
+table.component td.firstColumn{
 /* pink */
     /*background-color:#FFC0C0;*/
 /*green */
-     background-color:rgb(210, 240, 180);
+    /* background-color:#C0F0A0;*/
 /*bleu*/
     /*background-color:#89C6E2;*/
 /*orange*/
@@ -222,44 +186,33 @@ table.component td.fCol{
     /*background-color:#B5D5FF;*/
 /*gray*/
     /*background-color:#CCCCCC;*/
-
-
-/*bleu 
-background-color:#C4DAF4;
-*/
+/*bleu */
+    background-color:#C4DAF4;
     
      
-    width:12%;
+
     color:black;
-}
-
-td.paramName {
-    width:10%;
-}
-
-.paramDesc {
-    margin-top:3px;
-    margin-bottom:3px;
-}
-
-table.component table td.fCol{
-    border:none;
     width:12%;
-    background-color:rgb(225, 245, 206);
+}
+
+table.component table td.firstColumn{
+    border:none;
+    /*bleu */
+    background-color:#EAF1FB;
     color: inherit;
 }
 
-td.fCol b{
+td.firstColumn b{
     font-weight:normal;
 }
 
 
 /* The Name and Expand/Collapse control are on the same line
  but at different ends.*/
-td.fCol div.flL{
+td.firstColumn div.floatLeft{
     float:left;
 }
-td.fCol div.flR{
+td.firstColumn div.floatRight{
     float:right;
 }
 
@@ -278,15 +231,15 @@ table.component table th{
 table.propertiesTable {
     border-spacing:1px;
 }
-table.propertiesTable td.fCol{
+table.propertiesTable td.firstColumn{
     width:140px;
     text-transform:capitalize;        
 }
 /* Used by table */
-table.uBT {
+table.usedByTable {
     border-spacing:1px;
 }
-table.uBT td.fCol{
+table.usedByTable td.firstColumn{
     width:140px;
     text-transform:capitalize;        
 }
@@ -295,21 +248,21 @@ table.uBT td.fCol{
 table.facetsTable {
     border-spacing:1px;
 }
-table.facetsTable td.fCol{
+table.facetsTable td.firstColumn{
     width:140px;
     text-transform:capitalize;        
 }
 
 /* Attributes table */
-table.attsT {
+table.attributesTable {
     border-spacing:1px;
 }
-table.attsT th{
+table.attributesTable th{
     font-weight:normal;
 }
-table.attsT tr:hover{
+table.attributesTable tr:hover{
     color:inherit;
-   background-color:rgb(225,245,206);
+    background-color:#EAF1FB;
 }
 
 
@@ -322,7 +275,7 @@ table.identityConstraintsTable th{
 }
 table.identityConstraintsTable tr:hover{
     color:inherit;
-    background-color:rgb(225,245,206);
+    background-color:#EAF1FB;
 }
 
 
@@ -338,8 +291,8 @@ table.component td.diagram {
 
 
 /* This table is a workaround for an IE bug regarding pre-wrap */
-table.pWCont,
-table.pWCont td{
+table.preWrapContainer,
+table.preWrapContainer td{
     border:0;
     margin:0;
     padding:0;
@@ -377,6 +330,17 @@ ul ul li {
     list-style-position:inside;
 }
 
+ul ul li.schemaHierarchy {
+    padding-left:20px;
+    
+    list-style-image:none;
+    list-style-position:inside;
+}
+
+ul.schemaHierarchy {
+    padding-left:20px;
+}
+
 /*-------------------------------------
     Rounded tables.
 ---------------------------------------*/
@@ -394,7 +358,7 @@ table.rt_with_bg{
 }
 
 
-.rt_cTL{
+.rt_cornerTopLeft{
     background-color:transparent;
     background-repeat:no-repeat;
     background-position:right;    
@@ -403,12 +367,12 @@ table.rt_with_bg{
     margin:0;
     padding:0;
 }
-.rt_cTL{
+.rt_cornerTopLeft{
     background-image:url('img/cTL.gif');
 }
 
 
-.rt_cBL{
+.rt_cornerBottomLeft{
     background-color:transparent;
     background-repeat:no-repeat;
     background-position:right;    
@@ -417,12 +381,12 @@ table.rt_with_bg{
     margin:0;
     padding:0;
 }
-.rt_cBL{
+.rt_cornerBottomLeft{
     background-image:url('img/cBL.gif');
 }
 
 
-.rt_cTR{
+.rt_cornerTopRight{
     background-color:transparent;
     background-repeat:no-repeat;
     width:8px;
@@ -431,12 +395,12 @@ table.rt_with_bg{
     padding:0;
 
 }
-.rt_cTR{
+.rt_cornerTopRight{
     background-image:url('img/cTR.gif');
 }
 
 
-.rt_cBR{
+.rt_cornerBottomRight{
     background-color:transparent;
     background-repeat:no-repeat;
     width:8px;
@@ -445,12 +409,12 @@ table.rt_with_bg{
     padding:0;
 
 }
-.rt_cBR{
+.rt_cornerBottomRight{
     background-image:url('img/cBR.gif');    
 }
 
 
-.rt_cnt{
+.rt_content{
     background-color:white;
     color:inherit;
     width:auto;
@@ -459,7 +423,7 @@ table.rt_with_bg{
 }
 
 
-.rt_lL{
+.rt_lineLeft{
     background-color:transparent;
     background-repeat:repeat-y;
     background-position:right;    
@@ -468,23 +432,23 @@ table.rt_with_bg{
     padding:0;
 
 }
-.rt_lL{
+.rt_lineLeft{
     background-image:url('img/lL.gif');
 }
 
 
-.rt_lR{
+.rt_lineRight{
     background-repeat:repeat-y;
     width:8px;
     margin:0;
     padding:0;
 }
-.rt_lR{
+.rt_lineRight{
     background-image:url('img/lR.gif');
 }
 
 
-.rt_lT{
+.rt_lineTop{
     background-color:transparent;
     background-repeat:repeat-x;
     height:8px;
@@ -492,11 +456,11 @@ table.rt_with_bg{
     margin:0;
     padding:0;
 }
-.rt_lT{
+.rt_lineTop{
     background-image:url('img/lT.gif');        
 }
 
-.rt_lB{
+.rt_lineBottom{
     background-color:transparent;
     background-repeat:repeat-x;
     height:8px;
@@ -504,7 +468,7 @@ table.rt_with_bg{
     margin:0;
     padding:0;
 }
-.rt_lB{
+.rt_lineBottom{
     background-image:url('img/lB.gif');
 }
 
@@ -562,22 +526,22 @@ td.rt_content div span input{
     }
 }
 
+
+
+
 /*-----------------------------------------
     Navigation.
 ------------------------------------------*/
 a, a:visited {
     color:rgb(0, 0, 150);
     background-color:inherit;
-    font-weight: bold;
 }
+
 a:link, a:visited {
     text-decoration:none; 
 }
 a:hover {
     text-decoration:underline;
-}
-a.iRf {
-    display: block;
 }
 
 div.toTop{
@@ -586,6 +550,9 @@ div.toTop{
 div.toTop a{
     font-weight:normal;
 }
+
+
+
 
 /*------------------------------------------
   The second level of index. Floating DIVs
@@ -616,18 +583,33 @@ div.toTop a{
     height:60px;
 }
 
-.toc div.componentGroupTitle{
-    font-weight:bold;
-    margin-bottom:0.5em;
-    color:black;
-    background-color:inherit;
-}
-
 /* Namespacces or system ids in the TOC. */
 .toc .indexGroupTitle {
     font-weight:bold;
     margin-bottom:0.5em;
 }
+
+/* Components group*/
+
+div.componentGroupTitle {
+    font-weight: bold;
+    color: black;
+    background-color: inherit;
+}
+
+div.componentGroup {
+    padding-top: 4px;
+}
+
+table.componentGroup {
+    border-spacing: 1px;
+}
+
+td.componentGroup {
+    padding: 0px 0px 0px 0px;
+}
+
+
 
 /*----------------
     The footer. 
@@ -654,6 +636,11 @@ ul > li.doc{
     margin-left:10px;
 }
 
+/* No margin for pre from the table.*/
+td > pre {
+    margin:0px;
+}
+
 /* Wrap the long lines in the 'pre' section. */
 pre {
     white-space: pre-wrap;       /* css-3 */
@@ -662,3 +649,4 @@ pre {
     white-space: -o-pre-wrap;    /* Opera 7 */
     word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
+
