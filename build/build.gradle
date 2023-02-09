@@ -1,5 +1,3 @@
-def schemaFilePath // The input schema file path.
-
 def scriptToRun // The sh script that needs to be run, according to the input file.
 
 task initScript() {
@@ -16,9 +14,8 @@ task initScript() {
             }
         }
     }
-    // Compute the absolute schema file path depending on where the script is started from.
-    schemaFilePath = "${projectDir}" + (innerBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
-    String schemaExtension = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[it..<schemaFile.length()] : schemaFile}
+
+    schemaExtension = schemaFile.lastIndexOf('.').with {it != -1 ? schemaFile[it..<schemaFile.length()] : schemaFile}
 
     switch (schemaExtension) {
         case ".xsd":
@@ -43,22 +40,25 @@ task initScript() {
 }
 
 task generateDoc(type: Exec, dependsOn: [initScript]) {
+    // Compute the absolute schema file path depending on where the script is started from.
+    String schemaFilePath = "${projectDir}" + (innerBuild.toBoolean() ? "/../schemas/" : "/../../") + schemaFile
+    String outputFile = "${projectDir}/../doc/" + schemaFile.take(schemaFile.lastIndexOf('.')) + "html"
+
     workingDir "${projectDir}/extracted/oxygen"
-    commandLine "scripts/" + scriptToRun, schemaFilePath, "-out:" + "${projectDir}/../doc/documentation.html"
+    commandLine "scripts/" + scriptToRun, schemaFilePath, "-out:" + outputFile
     doLast {
-        String generatedDocFilePath = "${projectDir}/../doc/documentation.html"
         if (execResult.getExitValue() != 0) {
-            println new File(generatedDocFilePath).text
+            println new File(outputFile).text
             throw new TaskExecutionException(it, new Exception("Generation failed, see task output for details."))
         } else {
                 // Replace file locations from GitHub VM with locations from repository.
                 ant.replace(
-                        file: generatedDocFilePath,
+                        file: outputFile,
                         token: 'file:/home/runner/work/oxygen-script-documentation-template/oxygen-script-documentation-template',
                         value:  repoMainBranchUrl
                 )
                 ant.replace(
-                        file: generatedDocFilePath,
+                        file: outputFile,
                         token: '/home/runner/work',
                         value:  ''
                 )
